@@ -1,0 +1,110 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-image: url("../img/background.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: "Inter", sans-serif;
+    user-select: none;
+}
+
+.card-login {
+    width: 512px;
+    height: 576px;
+    margin: auto;
+
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 16px;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.25);
+    justify-content: space-between;
+}
+
+.logo-img {
+    width: 98px;
+    padding: 16px;
+}
+
+.inputs, .button-div, label {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputs {
+    gap: 32px;
+    align-items: center;
+    margin-top: 32px;
+}
+
+.input-login {
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 18px;
+    width: 366px;
+    height: auto;
+    padding: 12px 18px;
+    background-color: #F9F9F9;
+}
+
+.input-login input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    font-family: "Inter", sans-serif;
+    background-color: transparent;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.70);
+    margin-bottom: 8px;
+    margin-left: 4px;
+}
+
+.button-div {
+    align-items: center;
+    gap: 16px;
+    padding: 48px;
+}
+
+button {
+    background-color: #4A92FF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    font-size: 20px;
+    font-weight: bold;
+    width: 256px;
+    height: 60px;
+    transition-duration: 0.1s;
+}
+
+button:enabled:hover {
+    background-color: #247cff;
+    cursor: pointer;
+    transition-duration: 0.25s;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+a {
+    text-decoration: none;
+    color: #4A92FF;
+    font-size: 14px;
+    text-align: center;
+    margin-left: 8px;
+}

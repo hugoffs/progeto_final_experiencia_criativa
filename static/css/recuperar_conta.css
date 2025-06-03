@@ -1,0 +1,32 @@
+.titulo p {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.codigo-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    margin-bottom: 32px;
+}
+
+.codigo {
+    width: 48px;
+    height: 60px;
+    text-align: center;
+    font-size: 32px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: "Inter", sans-serif;
+}
+
+.codigo:focus {
+    border-color: #4A92FF;
+    box-shadow: 0 0 4px #4A92FF;
+}
+
