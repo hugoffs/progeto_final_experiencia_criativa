@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS `errors`;
+DROP TABLE IF EXISTS `logs`;
+DROP TABLE IF EXISTS `ldevs`;
+DROP TABLE IF EXISTS `locales`;
+DROP TABLE IF EXISTS `user_activity_logs`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `teams`;
+DROP TABLE IF EXISTS `routines`;
+
+DROP DATABASE IF EXISTS ldev_sprinkler;
