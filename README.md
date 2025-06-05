@@ -1,15 +1,33 @@
-Serapação das Pasta e cada programa tem ter: 
+# Componentes da equipe
 
-* Pastas:
-    *Controllers: tem a inteção de dos os controles de sensores e da main esteja em arquivos separados para faciliar a organização do codigo. EX(login, Sensores, atuadores ... )
+Angelo Andrioli Netho
+\
+Eduardo Mendes Carbonera
+\
+Hugo Fagundes Faria Santos
+\
+Kaio Gonçalves Teles
 
-    * Models: Separada para  organizar os Sensores e atuadores e usarios. 
+# Aplicação deste repositório
 
-    *static: Onde está os arquivos CSS, JS, Images e Frontes ultizadas nas paginas
+Desenvolvido como parte de nosso trabalho de Extensão e disciplina de Experiência Criativa, este repositório apresenta a concepção e a solução para combater a ineficiência na irrigação dos campos agrícolas da universidade. Nosso objetivo é automatizar a irrigação, substituindo o processo manual pela utilização de irrigadores já instalados (e subutilizados) e integrando-os a sistemas de IoT para um gerenciamento de água mais preciso e sustentável.
 
-    *ultis: Onde será feita a coneção com o banco de dados
+# Estrutura de Pastas e Organização do Programa
 
-    *views: Onde está os arquivos HTML
+controllers: Esta pasta é destinada a conter todos os arquivos que gerenciam a lógica de controle principal e dos sensores/atuadores. Isso inclui módulos como login, sensores, atuadores, entre outros.
 
-O arquivo main é o arquivo *app.py* onde que ele vai imporar da pasta "controllers" onde esta o arquivo "appcontroller.py" que controla o programa  principal logo tem que imporatar nos futuro as classes dos sensores e atuadores 
+models: Dedicada à organização e representação dos dados, como informações de sensores, atuadores e usuários.
 
+static: Armazena todos os arquivos estáticos utilizados nas páginas, como CSS, JavaScript, imagens e fontes.
+
+utils: Contém os módulos responsáveis por funcionalidades auxiliares, como a conexão com o banco de dados e outras utilidades gerais do sistema.
+
+views: Onde se encontram todos os arquivos HTML, que correspondem às interfaces do usuário.
+
+O arquivo principal da aplicação é o app.py. Ele será responsável por importar o appcontroller.py (localizado na pasta controllers), que gerencia o fluxo principal do programa. No futuro, as classes referentes aos sensores e atuadores deverão ser importadas para seus respectivos controladores.
+
+# Cronograma
+- [x] Inclusão do Banco de Dados
+- [ ] Conclusão da estilização através de CSS
+- [ ] Conclusão do esqueleto través de HTML
+- [ ] Conclusão das funcionalidades através de Javascript
