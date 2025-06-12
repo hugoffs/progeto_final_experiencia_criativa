@@ -2,6 +2,9 @@ CREATE DATABASE IF NOT EXISTS ldev_sprinkler;
 
 USE ldev_sprinkler;
 
+CREATE USER IF NOT EXISTS 'ldevs'@'%' IDENTIFIED BY 'ldevs';
+GRANT ALL PRIVILEGES ON ldev_sprinkler.* TO 'ldevs'@'%';
+FLUSH PRIVILEGES;
 
 CREATE TABLE `teams` (
     `id` VARCHAR(12) NOT NULL PRIMARY KEY,

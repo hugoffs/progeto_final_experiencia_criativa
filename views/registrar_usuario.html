@@ -1,36 +1,46 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Registrar Usuário</title>
-    <link rel="stylesheet" href="../static/css/registrar_usuario.css">
-    <script src="../static/js/registrar_usuario.js" defer></script>
-</head>
-<body>
-        <!-- 
-        
-        <header class="header">
-            <img src="../static/img/pucprlogo.png" alt="PUCPR Logo" class="logo">
+{% extends "base.html" %}
 
-            <div class="menu-toggle" id="menu-toggle">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+{% block title %}Registrar Usuário{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/registrar_usuario.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card-padrao">
+    <div class="titulo">
+        <p>Cadastrar novo Usuário</p>
+    </div>
+    <form action="#" method="post">
+        <div class="formulario">
+            <div class="form-left">
+                <p>Nome</p>
+                <input type="text" name="nome" placeholder="Nome Completo" required>
+
+                <p>Senha</p>
+                <input type="password" name="password" placeholder="Senha" required>
+
+                <p>Nível de Permissão</p>
+                <select name="nivel_permissao">
+                    <option value="admin">Administrador</option>
+                    <option value="user">Usuário</option>
+                </select>
             </div>
-        </header>
+            <div class="form-right">
+                <p>Email</p>
+                <input type="email" name="email" placeholder="E-mail" required>
 
-        <nav class="menu" id="menu">
-            <ul>
-                <li><a href="registrar_novo_local.html">Cadastre novo local</a></li>
-            </ul>
-        </nav>
-
-        <main style="margin-top: 150px;"> </main>
-        -->
-            <div class="card-padrao">
-                <h1>Bem-vindo!</h1>
-                <p>Este é um exemplo de conteúdo dentro do seu card.</p>
+                <p>Time</p>
+                <select name="time">
+                    {% for time in times %}
+                    <option value="{{ time.id }}">{{ time.nome }}</option>
+                    {% endfor %}
+                </select>
             </div>
-        
-    </body>
-</html>
+        </div>
+        <div class="botoes">
+            <button type="submit" class="btn-cadastrar">Cadastrar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

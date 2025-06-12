@@ -1,0 +1,32 @@
+body {
+    padding: 0;
+    margin: 0;
+    background-image: url("../img/Fundo.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+    font-family: "Inter", sans-serif;
+}
+
+/* Menu fixo no topo */
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    background-color: red;
+    display: flex;
+}
+
+main {
+    margin-top: 120px;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Sistema{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block extra_css %}{% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">   
+</head>
+<body>
+
+    <nav class="nav">
+        <img src="{{ url_for('static', filename='img/pucprlogo-removebg-preview.png') }}" width="100" height="100" alt="PUCPR Logo">
+
+        <div class="escolha">
+            {% if user_permission == "admin" %}
+            <ul>
+                <li><a href="/register_user">Registrar Usuário</a></li>
+                <li><a href="/register_tema">Registrar Tema</a></li>
+                <li><a href="/register_routine">Registrar nova Rotina</a></li>
+                <li><a href="/registre_device">Registrar novo Dispositivo</a></li>
+            </ul>
+            {% elif user_permission == "usuario1" %}
+            <ul>
+                <li><a href="/registrar_tema">Registrar Tema</a></li>
+                <li><a href="/register_routine">Registrar nova Rotina</a></li>
+                <li><a href="/registre_device">Registrar novo Dispositivo</a></li>
+            </ul>
+            {% else %}
+            <ul>
+                <li><a href="/registre_device">Registrar novo Dispositivo</a></li>
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="escolha">
+            {% if user_permission == "admin" %}
+            <ul>
+                <li><a href="/user">Usuários</a></li>
+                <li><a href="/tema">Temas</a></li>
+                <li><a href="/rotina">Rotinas</a></li>
+                <li><a href="/dispositivo">Dispositivos</a></li>
+            </ul>
+            {% elif user_permission == "usuario1" %}
+            <ul>
+                <li><a href="/tema">Temas</a></li>
+                <li><a href="/rotina">Rotinas</a></li>
+                <li><a href="/dispositivo">Dispositivos</a></li>
+            </ul>
+            {% else %}
+            <ul>
+                <li><a href="/dispositivo">Dispositivos</a></li>
+            </ul>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>
