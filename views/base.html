@@ -10,48 +10,74 @@
 <body>
 
     <nav class="nav">
-        <img src="{{ url_for('static', filename='img/pucprlogo-removebg-preview.png') }}" width="100" height="100" alt="PUCPR Logo">
+        <a href="/home">
+            <img src="{{ url_for('static', filename='img/pucpr.png') }}" alt="PUCPR Logo">
+        </a>
+        <div class="nav-left">
+              
+            <div class="escolha">
+                <select onchange="if (this.value) window.location.href=this.value">
+                    <option value="">-- Ações --</option>
+                    {% if user_permission == "admin" %}
+                        <option value="/register_user">Registrar Usuário</option>
+                        <option value="/register_tema">Registrar Tema</option>
+                        <option value="/register_routine">Registrar nova Rotina</option>
+                        <option value="/registre_device">Registrar novo Dispositivo</option>
+                    {% elif user_permission == "usuario1" %}
+                        <option value="/registrar_tema">Registrar Tema</option>
+                        <option value="/register_routine">Registrar nova Rotina</option>
+                        <option value="/registre_device">Registrar novo Dispositivo</option>
+                    {% else %}
+                        <option value="/registre_device">Registrar novo Dispositivo</option>
+                    {% endif %}
+                </select>
+            </div>
 
-        <div class="escolha">
-            {% if user_permission == "admin" %}
-            <ul>
-                <li><a href="/register_user">Registrar Usuário</a></li>
-                <li><a href="/register_tema">Registrar Tema</a></li>
-                <li><a href="/register_routine">Registrar nova Rotina</a></li>
-                <li><a href="/registre_device">Registrar novo Dispositivo</a></li>
-            </ul>
-            {% elif user_permission == "usuario1" %}
-            <ul>
-                <li><a href="/registrar_tema">Registrar Tema</a></li>
-                <li><a href="/register_routine">Registrar nova Rotina</a></li>
-                <li><a href="/registre_device">Registrar novo Dispositivo</a></li>
-            </ul>
-            {% else %}
-            <ul>
-                <li><a href="/registre_device">Registrar novo Dispositivo</a></li>
-            </ul>
-            {% endif %}
+            <div class="escolha">
+                <select onchange="if (this.value) window.location.href=this.value">
+                    <option value="">-- Acessar --</option>
+                    {% if user_permission == "admin" %}
+                        <option value="/user">Usuários</option>
+                        <option value="/tema">Temas</option>
+                        <option value="/rotina">Rotinas</option>
+                        <option value="/dispositivo">Dispositivos</option>
+                    {% elif user_permission == "usuario1" %}
+                        <option value="/tema">Temas</option>
+                        <option value="/rotina">Rotinas</option>
+                        <option value="/dispositivo">Dispositivos</option>
+                    {% else %}
+                        <option value="/dispositivo">Dispositivos</option>
+                    {% endif %}
+                </select>
+            </div>
+
+            <div class="escolha">
+                <select name="" id="">
+                    <option value="">-- Dados dos Sensores --</option>
+                    {% if user_permission == "admin" %}
+                        <option value="/temperatura">Temperatura</option>
+                        <option value="/umidade">Umidade do Solo "
+                        <option value="/luminosidade">Vazão de Aguá </option>
+                    {% elif user_permission == "usuario1" %}
+                            <option value="/temperatura">Temperatura</option>
+                            <option value="/umidade">Umidade do Solo"</option>
+                    {% else %}
+                            <option value=""> Sem Permição para acessar </option>
+                    {% endif %}
+                </select>
+            </div>
+            <div class="escolha">
+                <!-- LOgica Para fazer a saber qual irrigação o Usuario pode acessar  -->
+                <select name="" id="">
+                    <option value="">-- Irrigação --</option>
+                </select>
+            </div>
         </div>
 
-        <div class="escolha">
-            {% if user_permission == "admin" %}
-            <ul>
-                <li><a href="/user">Usuários</a></li>
-                <li><a href="/tema">Temas</a></li>
-                <li><a href="/rotina">Rotinas</a></li>
-                <li><a href="/dispositivo">Dispositivos</a></li>
-            </ul>
-            {% elif user_permission == "usuario1" %}
-            <ul>
-                <li><a href="/tema">Temas</a></li>
-                <li><a href="/rotina">Rotinas</a></li>
-                <li><a href="/dispositivo">Dispositivos</a></li>
-            </ul>
-            {% else %}
-            <ul>
-                <li><a href="/dispositivo">Dispositivos</a></li>
-            </ul>
-            {% endif %}
+        <div class="nav-right">
+                <a href="login.html">
+                    <button class="btn-logout" >Sair</button>
+                </a>
         </div>
     </nav>
 

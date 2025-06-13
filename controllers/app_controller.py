@@ -3,6 +3,13 @@ from models.db import db, instance
 
 #-------------------------- Importação dos blueprints --------------------------
 from controllers.login_controllers import login_
+"""
+class FakeUser:
+    def __init__(self, id, name, time):
+        self.id = id
+        self.name = name
+        self.time = time 
+"""
 
 
 def create_app():
@@ -19,7 +26,22 @@ def create_app():
     # função onde inicia o app
     @app.route('/')
     def index():
-        return render_template('registrar_usuario.html', user_permission="admin")
+        """
+        teste da pagina user.html
+        users = [
+            FakeUser(1, "João", "time1"),
+            FakeUser(2, "Maria", "time2"),
+            FakeUser(3, "Carlos", "time3"),
+            FakeUser(4, "João", "time1"),
+            FakeUser(5, "Maria", "time2"),
+            FakeUser(6, "Carlos", "time3"),
+            FakeUser(1, "João", "time1"),
+            FakeUser(2, "Maria", "time2"),
+            FakeUser(3, "Carlos", "time3")
+        ]
+        """
+
+        return render_template('register_routine.html', user_permission="admin")
     
 
     return app

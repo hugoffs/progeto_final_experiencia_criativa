@@ -1,43 +1,5 @@
-body {
-    padding: 0;
-    margin: 0;
-    background-image: url("../img/Fundo.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    height: 100vh;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    font-family: "Inter", sans-serif;
-    user-select: none;
-}
-
-.card-padrao {
-    margin-top: 50px;
-    width: 60%;
-    height: 70%;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.titulo {
-    height: 70px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.titulo p {
-    font-size: 30px;
-    font-weight: 600;
-    color: #000;
-    font-weight: 100;
-}
 
 .formulario {
     width: 100%;
@@ -55,7 +17,7 @@ body {
     width: 80%;
     height: 50px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border_select);
     padding: 0 15px;
     font-size: 16px;
     margin-bottom: 20px;
@@ -85,7 +47,7 @@ body {
     height: 50px;
     border-radius: 10px;
     border: none;
-    background-color: #4A92FF;
+    background-color: var(--botao);
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -95,13 +57,13 @@ body {
     transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
-button:enabled:hover {
-    background-color: #247cff;
+.botoes button:enabled:hover {
+    background-color: var(--botao_animado);
     transform: scale(1.05);
     cursor: pointer;
 }
 
-button:disabled {
+.botoes button:disabled {
     cursor: not-allowed;
     opacity: 0.8;
 }

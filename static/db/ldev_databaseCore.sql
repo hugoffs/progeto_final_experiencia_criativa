@@ -62,18 +62,18 @@ CREATE TABLE `ldevs` (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE `logs` (
-    `id` VARCHAR(12) NOT NULL PRIMARY KEY,
-    `humidity` FLOAT NOT NULL,
-    `temperature` FLOAT NOT NULL,
-    `is_irrigating` TINYINT(1) NOT NULL,
-    `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `ldev_id` VARCHAR(12) NOT NULL,
-    CONSTRAINT `fk_logs_ldev_id`
-        FOREIGN KEY (`ldev_id`)
-        REFERENCES `ldevs`(`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
-);
+    CREATE TABLE `logs` (
+        `id` VARCHAR(12) NOT NULL PRIMARY KEY,
+        `humidity` FLOAT NOT NULL,
+        `temperature` FLOAT NOT NULL,
+        `is_irrigating` TINYINT(1) NOT NULL,
+        `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+        `ldev_id` VARCHAR(12) NOT NULL,
+        CONSTRAINT `fk_logs_ldev_id`
+            FOREIGN KEY (`ldev_id`)
+            REFERENCES `ldevs`(`id`)
+            ON DELETE CASCADE ON UPDATE CASCADE
+    );
 
 CREATE TABLE `errors` (
     `id` VARCHAR(12) NOT NULL PRIMARY KEY,

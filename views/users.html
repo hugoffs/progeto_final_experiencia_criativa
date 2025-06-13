@@ -1,12 +1,52 @@
+{% extends "base.html" %}
 
-<html>
-    <head>
-        <title> Usuarios</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="../static/css/users.css">
-    </head>
+{% block title %}Registrar Usuário{% endblock %}
 
-    <body>
-        <h1>Usuários</h1>
-    </body>
-</html>
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card-padrao">
+
+    <div class="titulo">
+        <p>Usuários</p>
+    </div>
+
+    <div class="list-user">
+        {% if users|length > 0 %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Time</th>
+                        <th colspan="2">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.time }}</td>
+                            <td><a href="/edt_user/{{ user.id }}">Editar</a></td>
+                            <td><a href="/del_user/{{ user.id }}">Excluir</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum usuário cadastrado.</p>
+        {% endif %}
+    </div>
+
+    <div class="card-lower">
+        <div class="botoes">
+            <a href="#">
+                <button>Cadastrar Usuário</button>
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

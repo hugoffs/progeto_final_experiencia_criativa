@@ -1,3 +1,13 @@
+:root {
+    --fundo_menu: linear-gradient(to right, #630027 0%, #630027 100%);
+    --botao_sair: linear-gradient(to right, #a30736 0%, #a30736 100%);
+    --botao_sair_animado: #c9302c;
+    --botao: #4A92FF;
+    --botao_animado: #247cff;
+    --border_select: #ccc;
+    --border_td: #a3a1a1;
+}
+
 body {
     padding: 0;
     margin: 0;
@@ -16,10 +26,92 @@ body {
     left: 0;
     height: 100px;
     width: 100%;
-    background-color: red;
+    background: var(--fundo_menu);
     display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 20px;
+    z-index: 1000;
 }
 
+/* Área à esquerda do menu */
+.nav-left {
+    height: 100%;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Área à direita do menu */
+.nav-right {
+    height: 100%;
+    width: 40%;
+    padding-right: 5%;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+/* Imagem do logo */
+.nav img {
+    width: 80px;
+    height: 80px;
+    padding-right: 5%;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav img:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilização dos selects */
+.escolha {
+    margin: 0 10px;
+}
+
+.escolha select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid var(--border_select);
+    background-color: white;
+    font-family: "Ubuntu", sans-serif;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.escolha select:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão de logout */
+.btn-logout {
+    width: 100px;
+    height: 50px;
+    border-radius: 30px;
+    border: none;
+    background: var(--botao_sair);
+    color: white;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    transform: scale(1.1);
+    background-color: var(--botao_sair_animado);
+}
+
+/* Área principal do conteúdo */
 main {
     margin-top: 120px;
     padding: 20px;
@@ -28,5 +120,29 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-;
+}
+
+/* Card centralizado */
+.card-padrao {
+    margin-top: 50px;
+    width: 60%;
+    height: 70%;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.titulo {
+    height: 70px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titulo p {
+    font-size: 30px;
+    font-weight: 600;
+    color: #000;
+    font-weight: 100;
 }
