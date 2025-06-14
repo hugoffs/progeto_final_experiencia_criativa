@@ -2,8 +2,6 @@ from flask import Blueprint, request, render_template
 
 authentication_ = Blueprint('authentication', __name__, template_folder="./views", static_folder="./static", root_path="./")
 
-
-
 @authentication_.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')

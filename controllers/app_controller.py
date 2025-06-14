@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 
-# -------------------------- Importação dos blueprints --------------------------
 from controllers.authentication_controller import authentication_
 from controllers.ldev_controller import ldev_
 from controllers.locale_conotroller import locale_
@@ -21,12 +20,12 @@ class FakeUser:
 def create_app():
     app = Flask(__name__, template_folder="./views", static_folder="./static", root_path="./")
 
-    app.register_blueprint(authentication_, url_prefix='/authentication')
-    app.register_blueprint(ldev_, url_prefix='/ldev')
-    app.register_blueprint(locale_, url_prefix='/locale')
-    app.register_blueprint(routine_, url_prefix='/routine')
-    app.register_blueprint(team_, url_prefix='/team')
-    app.register_blueprint(user_, url_prefix='/user')
+    app.register_blueprint(authentication_, url_prefix='/api/authentication')
+    app.register_blueprint(ldev_, url_prefix='/api/ldev')
+    app.register_blueprint(locale_, url_prefix='/api/locale')
+    app.register_blueprint(routine_, url_prefix='/api/routine')
+    app.register_blueprint(team_, url_prefix='/api/team')
+    app.register_blueprint(user_, url_prefix='/api/user')
 
     app.config['TESTING'] = False
     app.config['SECRET_KEY'] = 'generated-secrete-key'
