@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from models import db
 
 class Locale(db.Model):
     __tablename__ = 'locales'
