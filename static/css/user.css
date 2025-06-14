@@ -1,0 +1,131 @@
+
+
+/* CARD PADRÃO */
+.card-padrao {
+    margin: 50px auto;
+    width: 100%;
+    max-width: 900px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+/* LISTA DE USUÁRIOS COM SCROLL */
+.list-user {
+    overflow-y: auto;
+    flex: 1;
+    padding: 10px 20px 0;
+    max-height: 100%;
+}
+
+/* TABELA */
+.list-user table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    font-family: var(--font);
+}
+
+.list-user th, .list-user td {
+    border: var(--border_select) 1px solid;
+    padding: 14px 15px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.list-user th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.list-user tr a {
+    color: #4A92FF;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.list-user tr a:hover {
+    text-decoration: underline;
+}
+
+/* Arredondar bordas da linha */
+.list-user tbody tr td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.list-user tbody tr td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* PARTE INFERIOR DO CARD FIXA */
+.card-lower {
+    padding: 15px 20px;
+    border-top: 1px solid #ccc;
+    background-color: white;
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+}
+
+/* BOTÕES */
+.botoes {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.botoes button {
+    width: 300px;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--botao);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.botoes button:enabled:hover {
+    background-color: var(--botao_animado);
+    transform: scale(1.05);
+}
+
+.botoes button:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+    .titulo p {
+        font-size: 20px;
+    }
+
+    .botoes {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .botoes button {
+        width: 100%;
+        max-width: 300px;
+        margin-top: 10px;
+    }
+
+    .list-user td, .list-user th {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
