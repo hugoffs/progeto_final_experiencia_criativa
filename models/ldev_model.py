@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from models import db
+
 
 class LDev(db.Model):
     __tablename__ = 'ldevs'
