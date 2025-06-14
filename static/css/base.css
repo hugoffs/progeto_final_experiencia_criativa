@@ -9,17 +9,16 @@
 }
 
 body {
-    padding: 0;
     margin: 0;
+    padding: 0;
     background-image: url("../img/Fundo.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
     height: 100vh;
-    font-family: "Inter", sans-serif;
+    font-family: "Ubuntu", sans-serif;
 }
 
-/* Menu fixo no topo */
 .nav {
     position: fixed;
     top: 0;
@@ -34,7 +33,6 @@ body {
     z-index: 1000;
 }
 
-/* Área à esquerda do menu */
 .nav-left {
     height: 100%;
     width: 60%;
@@ -44,7 +42,6 @@ body {
     gap: 15px;
 }
 
-/* Área à direita do menu */
 .nav-right {
     height: 100%;
     width: 40%;
@@ -54,7 +51,6 @@ body {
     flex-direction: row-reverse;
 }
 
-/* Imagem do logo */
 .nav img {
     width: 80px;
     height: 80px;
@@ -70,29 +66,55 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Estilização dos selects */
-.escolha {
-    margin: 0 10px;
-}
-
-.escolha select {
-    padding: 10px;
+/* Dropdown button */
+.dropbtn {
+    background-color: var(--botao);
+    color: white;
+    padding: 10px 20px;
     font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid var(--border_select);
-    background-color: white;
-    font-family: "Ubuntu", sans-serif;
-    text-align: center;
+    border: none;
+    border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
-.escolha select:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+.dropbtn:hover {
+    background-color: var(--botao_animado);
 }
 
-/* Botão de logout */
+/* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown content */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 180px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-radius: 10px;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
 .btn-logout {
     width: 100px;
     height: 50px;
@@ -111,22 +133,19 @@ body {
     background-color: var(--botao_sair_animado);
 }
 
-/* Área principal do conteúdo */
 main {
-    margin-top: 120px;
+    margin-top: 20px;
     padding: 20px;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 120px);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Card centralizado */
 .card-padrao {
-    margin-top: 50px;
-    width: 60%;
-    height: 70%;
+    width: 70%;
+    height: 80%;
     background-color: rgba(255, 255, 255, 0.95);
     border-radius: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -142,7 +161,6 @@ main {
 
 .titulo p {
     font-size: 30px;
-    font-weight: 600;
     color: #000;
-    font-weight: 100;
+    font-weight: 600;
 }

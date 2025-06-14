@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Registrar Rotina Opições avançadas {% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register_routine.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/registrar_usuario.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="card-padrao">
+        <div class="titulo">
+            <p>Registrar Rotina Opições avançadas</p>
+        </div>
+        <form action="#" method="post">
+            <div class="formulario">
+                <div class="form-left">
+                    <p>Umidade Minima %</p>
+                    <input type="number" name="umidade_min" placeholder="Umidade Minima" step="0.1" min="0" required>
+
+                    <p>Temperatura mínima C°</p>
+                    <input type="number" name="temperatura_min" placeholder="Temperatura mínima" step="0.1" min="0" required>
+                </div>
+
+                <div class="form-right">
+                    <p>Umidade Máxima %</p>
+                    <input type="number" name="umidade_max" placeholder="Umidade Máxima" step="0.1" min="0" required>
+
+                    <p>Temperatura Máxima C°</p>
+                    <input type="number" name="temperatura_max" placeholder="Temperatura Máxima" step="0.1" min="0" required>
+                </div>
+            </div>
+
+            <div class="lower-card">
+                <div class="botoes">
+                    <div class="espacamento"></div>
+
+                    <div class="link">
+                        <a href="/register_routine">Voltar</a>
+                    </div>
+
+                    <button type="submit" class="btn-cadastrar">Configurar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

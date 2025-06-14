@@ -9,13 +9,20 @@ from controllers.team_controller import team_
 from controllers.user_controller import user_
 from models.db import db, instance
 
-"""
-class FakeUser:
-    def __init__(self, id, name, time):
+
+# Classe fake para testar o template
+class FakeRoutine:
+    def __init__(self, id, name, horario_inicio, horario_fim):
         self.id = id
         self.name = name
-        self.time = time 
-"""
+        self.horario_inicio = horario_inicio
+        self.horario_fim = horario_fim
+
+
+class FakeUser:
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
 
 
 def create_app():
@@ -34,24 +41,17 @@ def create_app():
 
     db.init_app(app)
 
-    # função onde inicia o app
+    # -------------------------- Rota de teste do HTML --------------------------
     @app.route('/')
     def index():
-        """
-        teste da pagina user.html
-        users = [
-            FakeUser(1, "João", "time1"),
-            FakeUser(2, "Maria", "time2"),
-            FakeUser(3, "Carlos", "time3"),
-            FakeUser(4, "João", "time1"),
-            FakeUser(5, "Maria", "time2"),
-            FakeUser(6, "Carlos", "time3"),
-            FakeUser(1, "João", "time1"),
-            FakeUser(2, "Maria", "time2"),
-            FakeUser(3, "Carlos", "time3")
+        routines = [
+            FakeRoutine(1, "Rotina 1", "08:00", "10:00"),
+            FakeRoutine(2, "Rotina 2", "10:00", "12:00"),
+            FakeRoutine(3, "Rotina 3", "14:00", "16:00")
         ]
-        """
 
-        return render_template('register_routine.html', user_permission="admin")
+        user = FakeUser(1, "Admin")
+
+        return render_template('routine.html', routines=routines, user=user)
 
     return app
