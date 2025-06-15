@@ -1,12 +1,8 @@
-from flask import Blueprint, request, render_template, jsonify
+from flask import Blueprint, request, jsonify
 
-from services.team_service import list_teams, create_team
+from services.team_service import list_teams, create_team, get_team, update_team, delete_team
 
 team_ = Blueprint('team', __name__, template_folder="./views", static_folder="./static", root_path="./")
-
-@team_.route("/hello", methods=['GET'])
-def teste():
-    return "hello!"
 
 @team_.route('/', methods=['GET'])
 def list_route():
@@ -20,3 +16,24 @@ def create_route():
         return {'error': 'name obrigatório'}, 400
     team = create_team(name=data['name'])
     return jsonify(team.serialize()), 201
+
+@team_.route('/<string:team_id>', methods=['GET'])
+def get_route(team_id):
+    team = get_team(team_id)
+    return jsonify(team.serialize()), 200
+
+@team_.route('/<string:team_id>', methods=['PATCH'])
+def update_route(team_id):
+    team = get_team(team_id)
+    data = request.get_json() or {}
+    name = data.get('name')
+    if not name:
+        return {'error': 'name obrigatório'}, 400
+    team = update_team(team, name=name)
+    return jsonify(team.serialize()), 200
+
+@team_.route('/<string:team_id>', methods=['DELETE'])
+def delete_route(team_id):
+    team = get_team(team_id)
+    delete_team(team)
+    return '', 204
