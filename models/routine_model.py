@@ -19,3 +19,16 @@ class Routine(db.Model):
 
     locale_id = db.Column(db.String(36), db.ForeignKey('locales.id'), nullable=False)
     locale = db.relationship('Locale', back_populates='routines')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'temperature': self.temperature,
+            'humidity': self.humidity,
+            'begin_time': self.begin_time.isoformat() if self.begin_time else None,
+            'end_time': self.end_time.isoformat() if self.end_time else None,
+            'liters_of_water': self.liters_of_water,
+            'locale_id': self.locale_id,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }
