@@ -1,5 +1,4 @@
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
 
 from models import db
 
@@ -12,3 +11,11 @@ class Error(db.Model):
 
     ldev_id = db.Column(db.String(36), db.ForeignKey('ldevs.id'), nullable=False)
     ldev = db.relationship('LDev', back_populates='errors')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'message': self.message,
+            'created_at': self.created_at.isoformat(),
+            'ldev_id': self.ldev_id
+        }
