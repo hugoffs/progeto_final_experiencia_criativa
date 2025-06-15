@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from controllers.authentication_controller import authentication_
 from controllers.ldev_controller import ldev_
 from controllers.locale_conotroller import locale_
+from controllers.log_controller import log_
 from controllers.routine_controller import routine_
 from controllers.team_controller import team_
 from controllers.user_controller import user_
@@ -36,6 +37,7 @@ def create_app():
     app.register_blueprint(authentication_, url_prefix='/api/authentication')
     app.register_blueprint(ldev_, url_prefix='/api/ldev')
     app.register_blueprint(locale_, url_prefix='/api/locale')
+    app.register_blueprint(log_, url_prefix='/api/log')
     app.register_blueprint(routine_, url_prefix='/api/routine')
     app.register_blueprint(team_, url_prefix='/api/team')
     app.register_blueprint(user_, url_prefix='/api/user')

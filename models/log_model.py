@@ -1,5 +1,4 @@
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
 
 from models import db
 
@@ -14,3 +13,13 @@ class Log(db.Model):
 
     ldev_id = db.Column(db.String(36), db.ForeignKey('ldevs.id'), nullable=False)
     ldev = db.relationship('LDev', back_populates='logs')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'humidity': self.humidity,
+            'temperature': self.temperature,
+            'is_irrigating': self.is_irrigating,
+            'created_at': self.created_at.isoformat(),
+            'ldev_id': self.ldev_id
+        }
