@@ -12,3 +12,11 @@ class UserActivityLog(db.Model):
 
     user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', back_populates='activity_logs')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'action': self.action,
+            'created_at': self.created_at.isoformat(),
+            'user_id': self.user_id
+        }
