@@ -1,4 +1,8 @@
+import os
+
+from dotenv import load_dotenv
 from flask import Flask, render_template
+from flask_jwt_extended import JWTManager
 
 from controllers.authentication_controller import authentication_
 from controllers.error_controller import error_
@@ -30,7 +34,7 @@ class Faketeam:
         self.id = id
         self.name = name
 
-
+load_dotenv()
 
 def create_app():
     app = Flask(__name__, template_folder="./views", static_folder="./static", root_path="./")
@@ -48,7 +52,11 @@ def create_app():
     app.config['SECRET_KEY'] = 'generated-secrete-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = instance
 
+    # chave secreta para assinar os tokens (guarde em .env)
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+
     db.init_app(app)
+    JWTManager(app)
 
     # -------------------------- Rota de teste do HTML --------------------------
     @app.route('/')
