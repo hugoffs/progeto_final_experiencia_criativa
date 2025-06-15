@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Registrar Rotina{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register_routine.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/registrar_usuario.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card-padrao">
+    <div class="titulo">
+        <p>Nova Rotina</p>
+    </div>
+    {% for rotina em torinas %}
+        <form action="#" method="post">
+            <div class="formulario">
+                <div class="form-left">
+                    <p>Horário de Início</p>
+                    <input type="time" name="horario_inicio" value="{{ rotina.horario_inicio }}" required>
+
+                    <p>Litros de Água</p>
+                    <input type="number" name="litros_agua" placeholder="Litros de Água" step="0.1" min="0" value="{{ rotina.litros_agua }}" required>
+                </div>
+
+                <div class="form-right">
+                    <p>Horário de Fim</p>
+                    <input type="time" name="horario_fim" valeu="{{ rotina.horario_fim }}" required>
+
+                    <p>Definir rotina como ativa</p>
+                    <select name="ativa" value="{{ rotina.ativa }}"" required>
+                        <option value="true">Sim</option>
+                        <option value="false">Não</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="lower-card">
+                <div class="botoes">
+                    <div class="espacamento"></div>
+
+                    <div class="link">
+                        <a href="/update_routine_avancadas/{{ rotina.id }}" >Opções Avançadas</a>
+                    </div>
+
+                    <button type="submit" class="btn-cadastrar">Cadastrar</button>
+                </div>
+            </div>
+        </form>
+    {% endfor %}
+</div>
+{% endblock %}

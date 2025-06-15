@@ -71,6 +71,8 @@ def create_app():
             Faketeam(5, "time5"),
             Faketeam(6, "time6"),
         ]
-        return render_template('team.html',  user_permission=user, teams=time)
+        labels = ['Sensor 1', 'Sensor 2', 'Sensor 3']
+        valores = [10, 20, 30]
+        return render_template('dados_sensores.html',  user_permission=user, labels=labels, valores=valores)
 
     return app

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %} Dados em tempo Real Sensores {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tempo_real.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+
+
+{% endblock %}
+
+{% block content %}
+    <div class="card-padrao">
+        <div class="titulo">
+            <p>Dados em tempo Real Sensores</p>
+        </div>
+        <div style="width: 90%; margin: auto;">
+            <canvas id="meuGrafico"></canvas>
+        </div>
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Usuário{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/registrar_usuario.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card-padrao">
+    <div class="titulo">
+        <p>Cadastrar novo Usuário</p>
+    </div>
+    {% for user in users %}
+        <form action="#" method="post">
+            <div class="formulario">
+                <div class="form-left">
+                    <p>Nome</p>
+                    <input type="text" name="nome" placeholder="Nome Completo" value="{{ user.nome }}" required>
+
+                    <p>Senha</p>
+                    <input type="password" name="password" placeholder="Senha" required>
+
+                    <p>Nível de Permissão</p>
+                    <select name="nivel_permissao" value="{{ user.nivel_permissao }}"">
+                        <option value="admin">Administrador</option>
+                        <option value="user">Usuário</option>
+                    </select>
+                </div>
+                <div class="form-right">
+                    <p>Email</p>
+                    <input type="email" name="email" placeholder="E-mail" value="{{ user.email }}" required>
+
+                    <p>Time</p>
+                    <select name="time" value="{{ user.time.id }}"">
+                        {% for time in times %}
+                        <option value="{{ time.id }}">{{ time.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="botoes">
+                <button type="submit" class="btn-cadastrar">Cadastrar</button>
+            </div>
+        </form>
+    {% endfor %}
+</div>
+{% endblock %}
