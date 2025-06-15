@@ -1,7 +1,7 @@
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
 
 from models import db
+
 
 class Locale(db.Model):
     __tablename__ = 'locales'
@@ -18,3 +18,13 @@ class Locale(db.Model):
     team = db.relationship('Team', back_populates='locales')
     ldevs = db.relationship('LDev', back_populates='locale', lazy='dynamic')
     routines = db.relationship('Routine', back_populates='locale', lazy='dynamic')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'note': self.note,
+            'team_id': self.team_id,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }
