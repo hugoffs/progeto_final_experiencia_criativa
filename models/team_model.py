@@ -10,8 +10,8 @@ class Team(db.Model):
     name = db.Column(db.String(45), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False,
-                           default=datetime.utcnow,
-                           onupdate=datetime.utcnow)
+                            default=datetime.utcnow,
+                            onupdate=datetime.utcnow)
 
     users = db.relationship('User', back_populates='team', lazy='dynamic')
     locales = db.relationship('Locale', back_populates='team', lazy='dynamic')

@@ -1,0 +1,71 @@
+.formulario {
+    width: 100%;
+    height: 80%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.formulario div {
+    margin-left: 5%;
+}
+
+.text-form {
+    width: 95%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.text-form p {
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1.1rem;
+    color: #630027;
+    margin-bottom: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+}
+
+.text-form p::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 40px;
+    height: 2px;
+    background-color: #630027;
+}
+
+.text-form input {
+    padding: 10px;
+    width: 80%;
+    font-family: "Ubuntu", sans-serif;
+    font-size: large;
+    margin-right: 30%;
+    border: 2px solid #630027; 
+    border-radius: 8px;      
+    outline: none;          
+    background-color: #ececec;
+}
+
+.text-form input:focus {
+    border-color: #630027;
+    box-shadow: 0 0 5px #630027;
+}
+
+.butao {
+    margin-left: 5%;
+}
+
+.butao button {
+    padding: 10px 20px;
+    background-color: #630027;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.butao button:hover {
+    background-color: #a30736;
+}

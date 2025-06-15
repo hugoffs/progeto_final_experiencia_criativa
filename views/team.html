@@ -1,49 +1,47 @@
 {% extends "base.html" %}
 
-{% block title %}Rotinas{% endblock %}
+{% block title %}Registrar Usuário{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/rotina.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/team.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="card-padrao">
 
     <div class="titulo">
-        <p> Rotinas </p>
+        <p> Temes </p>
     </div>
 
-    <div class="list-rotina">
-        {% if routines|length > 0 %}
+    <div class="list-team">
+        {% if teams|length > 0 %}
             <table>
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Horário</th>
                         <th colspan="2">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for routine in routines %}
+                    {% for team in teams %}
                         <tr>
-                            <td>{{ routine.name }}</td>
-                            <td>{{ routine.horario_inicio }} - {{ routine.horario_fim }}</td>
-                            <td><a href="/edt_routine/{{ routine.id }}">Editar</a></td>
-                            <td><a href="/del_routine/{{ routine.id }}">Excluir</a></td>
+                            <td>{{ team.name }}</td>
+                            <td><a href="/edt_teams/{{ teams.id }}">Editar</a></td>
+                            <td><a href="/del_teams/{{ teams.id }}">Excluir</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         {% else %}
-            <p>Nenhuma Rotina Cadastrada.</p>
+            <p>Nenhum usuário cadastrado.</p>
         {% endif %}
     </div>
 
     <div class="card-lower">
         <div class="botoes">
-            <a href="/add_routine" class="botao-link">
-                Cadastrar Rotina
+            <a href="#">
+                <button>Cadastrar Usuário</button>
             </a>
         </div>
     </div>

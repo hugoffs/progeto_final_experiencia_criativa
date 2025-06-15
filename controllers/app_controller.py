@@ -23,6 +23,12 @@ class FakeUser:
         self.id = id
         self.name = name
 
+class Faketeam: 
+    def __init__(self, id ,name):
+        self.id = id
+        self.name = name
+
+
 
 def create_app():
     app = Flask(__name__, template_folder="./views", static_folder="./static", root_path="./")
@@ -43,14 +49,16 @@ def create_app():
     # -------------------------- Rota de teste do HTML --------------------------
     @app.route('/')
     def index():
-        routines = [
-            FakeRoutine(1, "Rotina 1", "08:00", "10:00"),
-            FakeRoutine(2, "Rotina 2", "10:00", "12:00"),
-            FakeRoutine(3, "Rotina 3", "14:00", "16:00")
-        ]
 
         user = FakeUser(1, "Admin")
-
-        return render_template('routine.html', routines=routines, user=user)
+        time = [
+            Faketeam(1, "time11"),
+            Faketeam(2, "time2"),
+            Faketeam(3, "time3"),
+            Faketeam(4, "time4"),
+            Faketeam(5, "time5"),
+            Faketeam(6, "time6"),
+        ]
+        return render_template('team.html',  user_permission=user, teams=time)
 
     return app

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar novo Time {% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register_team.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="card-padrao">
+        <div class="titulo">
+            <p>Registrar Novo Time </p>
+        </div>
+        <div class="formulario">
+            <form action="#" method="post">
+                    <div class="text-form">
+                        <p>Nome do Time</p>
+                        <input type="text" name="name " placeholder="Nome do Time">
+                    </div>
+                <div class="butao">
+                    <a href="/team">
+                        <button type="submit" >Registrar</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div> 
+{% endblock %}

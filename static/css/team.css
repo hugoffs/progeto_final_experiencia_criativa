@@ -30,8 +30,8 @@
     font-weight: bold;
 }
 
-/* LISTA DE ROTINAS COM SCROLL */
-.list-rotina {
+/* LISTA DE TIMES COM SCROLL */
+.list-team {
     overflow-y: auto;
     flex: 1;
     padding: 10px 20px 0;
@@ -39,14 +39,14 @@
 }
 
 /* TABELA */
-.list-rotina table {
+.list-team table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 10px;
     font-family: var(--font);
 }
 
-.list-rotina th, .list-rotina td {
+.list-team th, .list-team td {
     border: var(--border_select) 1px solid;
     padding: 14px 15px;
     text-align: left;
@@ -54,28 +54,36 @@
     background-color: white;
 }
 
-.list-rotina th {
+.list-team th {
     background-color: #f0f0f0;
     font-weight: bold;
 }
 
-.list-rotina tr a {
-    color: #4A92FF;
-    font-size: 14px;
+/* LINKS (AÇÕES) */
+.list-team tr a {
+    color: #555;
+    background-color: #f5f5f5;
+    padding: 6px 12px;
+    border-radius: 8px;
     text-decoration: none;
+    font-size: 13px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
 }
 
-.list-rotina tr a:hover {
-    text-decoration: underline;
+.list-team tr a:hover {
+    background-color: #630027;
+    color: white;
+    border: 1px solid #630027;
 }
 
 /* Arredondar bordas da linha */
-.list-rotina tbody tr td:first-child {
+.list-team tbody tr td:first-child {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
 
-.list-rotina tbody tr td:last-child {
+.list-team tbody tr td:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -97,32 +105,29 @@
     justify-content: flex-end;
 }
 
-/* BOTÃO COMO LINK BONITO */
-.botao-link {
+.botoes button {
     width: 300px;
     height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--botao);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    background: var(--botao);
-    color: white;
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
     transition: transform 0.25s ease, background-color 0.25s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
 }
 
-.botao-link:hover {
-    background: var(--botao_animado);
+.botoes button:enabled:hover {
+    background-color: var(--botao_animado);
     transform: scale(1.05);
 }
 
-.botao-link:focus {
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(163, 7, 54, 0.3);
+.botoes button:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
 }
 
 /* RESPONSIVO */
@@ -142,7 +147,7 @@
         margin-top: 10px;
     }
 
-    .list-rotina td, .list-rotina th {
+    .list-team td, .list-team th {
         font-size: 14px;
         padding: 10px;
     }
