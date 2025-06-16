@@ -1,16 +1,23 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt
 
 from services.locale_service import delete_locale, get_locale, update_locale, create_locale, list_locales
 
 locale_ = Blueprint('locale', __name__, template_folder="./views", static_folder="./static", root_path="./")
 
 @locale_.route('/', methods=['GET'])
+@jwt_required()
 def list_route():
     locs = list_locales()
     return jsonify([l.serialize() for l in locs]), 200
 
 @locale_.route('/', methods=['POST'])
+@jwt_required()
 def create_route():
+    claims = get_jwt()
+    if claims.get('role') == 'user':
+        return {'error': 'Acesso negado'}, 403
+
     data = request.get_json() or {}
     name = data.get('name')
     team_id = data.get('team_id')
@@ -22,12 +29,18 @@ def create_route():
     return jsonify(loc.serialize()), 201
 
 @locale_.route('/<string:locale_id>', methods=['GET'])
+@jwt_required()
 def get_route(locale_id):
     loc = get_locale(locale_id)
     return jsonify(loc.serialize()), 200
 
 @locale_.route('/<string:locale_id>', methods=['PATCH'])
+@jwt_required()
 def update_route(locale_id):
+    claims = get_jwt()
+    if claims.get('role') == 'user':
+        return {'error': 'Acesso negado'}, 403
+
     loc = get_locale(locale_id)
     data = request.get_json() or {}
     # Só atualiza campos enviados no payload
@@ -42,7 +55,12 @@ def update_route(locale_id):
     return jsonify(loc.serialize()), 200
 
 @locale_.route('/<string:locale_id>', methods=['DELETE'])
+@jwt_required()
 def delete_route(locale_id):
+    claims = get_jwt()
+    if claims.get('role') == 'user':
+        return {'error': 'Acesso negado'}, 403
+
     loc = get_locale(locale_id)
     delete_locale(loc)
     return '', 204
