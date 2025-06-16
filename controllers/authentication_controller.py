@@ -22,9 +22,9 @@ def protected_page_example():
     return jsonify([u.serialize() for u in users]), 200
 
     #if username == 'admin' and password == 'password':
-     #   return render_template('dashboard.html', username=username)
+        #   return render_template('dashboard.html', username=username)
     #else:
-     #   return render_template('login.html', error='Invalid credentials')
+        #   return render_template('login.html', error='Invalid credentials')
 
 @authentication_.route('/login', methods=['POST'])
 def login():
@@ -41,7 +41,7 @@ def login():
     # aqui você pode inserir claims extras, ex role:
     additional_claims = {'role': user.role}
     access_token = create_access_token(identity=user.id,
-                                       additional_claims=additional_claims)
+                                        additional_claims=additional_claims)
     return jsonify(access_token=access_token), 200
 
 

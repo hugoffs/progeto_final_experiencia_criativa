@@ -1,30 +1,37 @@
 {% extends "base.html" %}
 
-{% block title %}Registrar novo Time {% endblock %}
+{% block title %}Editar Time{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register_team.css') }}">
 {% endblock %}
 
 {% block content %}
-    <div class="card-padrao">
-        <div class="titulo">
-            <p>Registrar Novo Time </p>
+<div class="card-padrao">
+    <div class="titulo">
+        <p>Editar Time</p>
+    </div>
+    <div class="formulario">
+        <form action="http://localhost:8080/api/team/update_teams" method="post">
+            <input type="hidden" name="_method" value="PATCH">
+            
+            <input type="hidden" name="id" value="{{ team.id }}">
+            <div class="text-form">
+                <p>Nome do Time</p>
+                <input type="text" name="name" value="{{ team.name }}" required placeholder="Nome do Time">
+            </div>
+
+            <div class="butao">
+                <button type="submit">Salvar Alterações</button>
+            </div>
+        </form>
+
+        <div class="butao">
+            <a href="/api/team/list_teams">
+                <button type="button">Voltar</button>
+            </a>
         </div>
-        <div class="formulario">
-            {% for teams in teams %}
-            <form action="#" method="post">
-                    <div class="text-form">
-                        <p>Nome do Time</p>
-                        <input type="text" name="name" value="{{ teams.name }}" required="required" placeholder="Time">
-                    </div>
-                <div class="butao">
-                    <a href="/team">
-                        <button type="submit" >Registrar</button>
-                    </a>
-                </div>
-            </form>
-            {% endfor %}
-        </div>
-    </div> 
+    </div>
+</div>
 {% endblock %}

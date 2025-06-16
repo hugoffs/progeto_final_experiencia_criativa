@@ -12,15 +12,13 @@
             <p>Registrar Novo Time </p>
         </div>
         <div class="formulario">
-            <form action="#" method="post">
+            <form action="{{ url_for('team.add_team') }}" method="post">
                     <div class="text-form">
                         <p>Nome do Time</p>
-                        <input type="text" name="name " placeholder="Nome do Time">
+                        <input type="text" name="name" placeholder="Nome do Time">
                     </div>
                 <div class="butao">
-                    <a href="/team">
-                        <button type="submit" >Registrar</button>
-                    </a>
+                    <button type="submit">Registrar</button>
                 </div>
             </form>
         </div>

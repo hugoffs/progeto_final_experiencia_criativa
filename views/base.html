@@ -19,52 +19,29 @@
             <div class="dropdown">
                 <button class="dropbtn">Ações</button>
                 <div class="dropdown-content">
-                    {% if user_permission.name == "admin" %}
-                        <a href="/register_user">Registrar Usuário</a>
-                        <a href="/register_tema">Registrar Tema</a>
-                        <a href="/register_routine">Registrar nova Rotina</a>
-                        <a href="/registre_device">Registrar novo Dispositivo</a>
-                    {% elif user_permission.name == "usuario1" %}
-                        <a href="/registrar_tema">Registrar Tema</a>
-                        <a href="/register_routine">Registrar nova Rotina</a>
-                        <a href="/registre_device">Registrar novo Dispositivo</a>
-                    {% else %}
-                        <a href="/registre_device">Registrar novo Dispositivo</a>
-                    {% endif %}
+                    <a href="/register_user">Registrar Usuário</a>
+                    <a href="/api/team/register_team">Registrar Tema</a>
+                    <a href="/register_routine">Registrar nova Rotina</a>
+                    <a href="/registre_device">Registrar novo Dispositivo</a>
                 </div>
             </div>
 
             <div class="dropdown">
                 <button class="dropbtn">Acessar</button>
                 <div class="dropdown-content">
-                    {% if user_permission.name == "admin" %}
-                        <a href="/user">Usuários</a>
-                        <a href="/tema">Temas</a>
-                        <a href="/rotina">Rotinas</a>
-                        <a href="/dispositivo">Dispositivos</a>
-                    {% elif user_permission.name == "usuario1" %}
-                        <a href="/tema">Temas</a>
-                        <a href="/rotina">Rotinas</a>
-                        <a href="/dispositivo">Dispositivos</a>
-                    {% else %}
-                        <a href="/dispositivo">Dispositivos</a>
-                    {% endif %}
+                    <a href="/user">Usuários</a>
+                    <a href="/api/team/list_teams">Temas</a>
+                    <a href="/rotina">Rotinas</a>
+                    <a href="/dispositivo">Dispositivos</a>
                 </div>
             </div>
 
             <div class="dropdown">
                 <button class="dropbtn">Dados dos Sensores</button>
                 <div class="dropdown-content">
-                    {% if user_permission.name == "admin" %}
-                        <a href="/temperatura">Temperatura</a>
-                        <a href="/umidade">Umidade do Solo</a>
-                        <a href="/luminosidade">Vazão de Água</a>
-                    {% elif user_permission.name == "usuario1" %}
-                        <a href="/temperatura">Temperatura</a>
-                        <a href="/umidade">Umidade do Solo</a>
-                    {% else %}
-                        <a href="#">Sem Permissão</a>
-                    {% endif %}
+                    <a href="/temperatura">Temperatura</a>
+                    <a href="/umidade">Umidade do Solo</a>
+                    <a href="/luminosidade">Vazão de Água</a>
                 </div>
             </div>
 

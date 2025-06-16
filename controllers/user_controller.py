@@ -1,9 +1,10 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from werkzeug.exceptions import BadRequest
 
 from services.user_service import list_users, create_user, get_user, update_user, delete_user
 
 user_ = Blueprint('user', __name__, template_folder="./views", static_folder="./static", root_path="./")
+
 
 @user_.route('/', methods=['GET'])
 def list_route():
@@ -30,6 +31,8 @@ def get_route(user_id):
     user = get_user(user_id)
     return jsonify(user.serialize()), 200
 
+
+
 @user_.route('/<string:user_id>', methods=['PATCH'])
 def update_route(user_id):
     user = get_user(user_id)
@@ -46,3 +49,5 @@ def delete_route(user_id):
     user = get_user(user_id)
     delete_user(user)
     return '', 204
+
+#-------------------- WEB ----------------------------

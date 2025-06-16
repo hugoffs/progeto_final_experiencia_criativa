@@ -12,6 +12,7 @@ from controllers.log_controller import log_
 from controllers.routine_controller import routine_
 from controllers.team_controller import team_
 from controllers.user_controller import user_
+from services.team_service import list_teams # Importar o serviço para listar times
 from models.db import db, instance
 
 
@@ -61,18 +62,8 @@ def create_app():
     # -------------------------- Rota de teste do HTML --------------------------
     @app.route('/')
     def index():
-
-        user = FakeUser(1, "Admin")
-        time = [
-            Faketeam(1, "time11"),
-            Faketeam(2, "time2"),
-            Faketeam(3, "time3"),
-            Faketeam(4, "time4"),
-            Faketeam(5, "time5"),
-            Faketeam(6, "time6"),
-        ]
-        labels = ['Sensor 1', 'Sensor 2', 'Sensor 3']
-        valores = [10, 20, 30]
-        return render_template('dados_sensores.html',  user_permission=user, labels=labels, valores=valores)
+        current_teams = list_teams()
+        # Você precisará da sua lógica real para obter o usuário/permissão atual
+        return render_template('team.html',  teams=current_teams)
 
     return app

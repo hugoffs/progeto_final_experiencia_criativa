@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Registrar Usuário{% endblock %}
+{% block title %}Times{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
@@ -9,13 +9,12 @@
 
 {% block content %}
 <div class="card-padrao">
-
     <div class="titulo">
-        <p> Temes </p>
+        <p>Times</p>
     </div>
 
     <div class="list-team">
-        {% if teams|length > 0 %}
+        {% if teams %}
             <table>
                 <thead>
                     <tr>
@@ -27,24 +26,27 @@
                     {% for team in teams %}
                         <tr>
                             <td>{{ team.name }}</td>
-                            <td><a href="/edt_teams/{{ teams.id }}">Editar</a></td>
-                            <td><a href="/del_teams/{{ teams.id }}">Excluir</a></td>
+                            <td>
+                                <a href="/api/team/edit_team?id={{team.id}}">Editar</a>
+                            </td>
+                            <td>
+                                <a href="/api/team/del_team?id={{team.id}}" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         {% else %}
-            <p>Nenhum usuário cadastrado.</p>
+            <p>Nenhum time cadastrado.</p>
         {% endif %}
     </div>
 
     <div class="card-lower">
         <div class="botoes">
-            <a href="#">
-                <button>Cadastrar Usuário</button>
+            <a href="/api/team/register_team">
+                <button>Cadastrar Time</button>
             </a>
         </div>
     </div>
-
 </div>
 {% endblock %}
