@@ -2,8 +2,10 @@ import os
 
 from dotenv import load_dotenv
 from flasgger import Swagger
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt
+from flask_jwt_extended.exceptions import NoAuthorizationError
+from jwt import ExpiredSignatureError
 
 from controllers.authentication_controller import authentication_
 from controllers.error_controller import error_
@@ -85,6 +87,11 @@ def create_app():
         ]
     }
     Swagger(app, template=template)
+
+    @app.errorhandler(NoAuthorizationError)
+    @app.errorhandler(ExpiredSignatureError)
+    def handle_jwt_error(e):
+        return redirect(url_for('authentication.login_page'))
 
     # -------------------------- Rota de teste do HTML --------------------------
     @app.route('/')
