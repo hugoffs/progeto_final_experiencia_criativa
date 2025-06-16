@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify
 from werkzeug.exceptions import BadRequest
 
 from services.user_service import list_users, create_user, get_user, update_user, delete_user
@@ -7,12 +7,22 @@ user_ = Blueprint('user', __name__, template_folder="./views", static_folder="./
 
 
 @user_.route('/', methods=['GET'])
+@jwt_required()
 def list_route():
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+        return {'error': 'Acesso negado'}, 403
+
     users = list_users()
     return jsonify([u.serialize() for u in users]), 200
 
 @user_.route('/', methods=['POST'])
+@jwt_required()
 def create_route():
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+        return {'error': 'Acesso negado'}, 403
+
     data = request.get_json() or {}
     for field in ('name', 'email', 'password'):
         if not data.get(field):
@@ -27,14 +37,24 @@ def create_route():
     return jsonify(user.serialize()), 201
 
 @user_.route('/<string:user_id>', methods=['GET'])
+@jwt_required()
 def get_route(user_id):
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+        return {'error': 'Acesso negado'}, 403
+
     user = get_user(user_id)
     return jsonify(user.serialize()), 200
 
 
 
 @user_.route('/<string:user_id>', methods=['PATCH'])
+@jwt_required()
 def update_route(user_id):
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+        return {'error': 'Acesso negado'}, 403
+
     user = get_user(user_id)
     data = request.get_json() or {}
     allowed = {'name', 'email', 'password', 'role', 'team_id'}
@@ -45,7 +65,12 @@ def update_route(user_id):
     return jsonify(user.serialize()), 200
 
 @user_.route('/<string:user_id>', methods=['DELETE'])
+@jwt_required()
 def delete_route(user_id):
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+        return {'error': 'Acesso negado'}, 403
+
     user = get_user(user_id)
     delete_user(user)
     return '', 204

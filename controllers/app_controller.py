@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager
 from controllers.authentication_controller import authentication_
 from controllers.error_controller import error_
 from controllers.ldev_controller import ldev_
-from controllers.locale_conotroller import locale_
+from controllers.locale_controller import locale_
 from controllers.log_controller import log_
 from controllers.routine_controller import routine_
 from controllers.team_controller import team_
