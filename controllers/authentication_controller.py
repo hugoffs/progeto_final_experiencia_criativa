@@ -92,13 +92,3 @@ def login():
     resp = jsonify({"login": True})
     set_access_cookies(resp, access_token)
     return resp, 200
-
-
-@authentication_.route('/login', methods=['GET'])
-@jwt_required(optional=True)
-def login_page():
-    current_user_id = get_jwt_identity()
-    if current_user_id is None:
-        return render_template('login.html')
-
-    return redirect('/')
