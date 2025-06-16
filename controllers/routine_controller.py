@@ -10,12 +10,145 @@ routine_ = Blueprint('routine', __name__, template_folder="./views", static_fold
 @routine_.route('/', methods=['GET'])
 @jwt_required()
 def list_route():
+    """
+        List all irrigation routines
+        ---
+        tags:
+          - routine
+        security:
+          - Bearer: []
+        responses:
+          200:
+            description: A JSON array of routine objects
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                  temperature:
+                    type: number
+                    format: float
+                    example: 25.5
+                  humidity:
+                    type: number
+                    format: float
+                    example: 60.0
+                  begin_time:
+                    type: string
+                    format: time
+                    example: "08:00:00"
+                  end_time:
+                    type: string
+                    format: time
+                    example: "10:00:00"
+                  liters_of_water:
+                    type: integer
+                    example: 100
+                  locale_id:
+                    type: string
+                    example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2025-06-16T08:00:00Z"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2025-06-16T09:00:00Z"
+          401:
+            description: Missing or invalid JWT token
+        """
+
     routines = list_routines()
     return jsonify([r.serialize() for r in routines]), 200
 
 @routine_.route('/', methods=['POST'])
 @jwt_required()
 def create_route():
+    """
+        Create a new irrigation routine (operator or admin only)
+        ---
+        tags:
+          - routine
+        security:
+          - Bearer: []
+        consumes:
+          - application/json
+        parameters:
+          - in: body
+            name: routine
+            description: Routine details to create
+            required: true
+            schema:
+              type: object
+              required:
+                - liters_of_water
+                - locale_id
+              properties:
+                temperature:
+                  type: number
+                  format: float
+                  example: 25.5
+                humidity:
+                  type: number
+                  format: float
+                  example: 60.0
+                begin_time:
+                  type: string
+                  format: time
+                  example: "08:00:00"
+                end_time:
+                  type: string
+                  format: time
+                  example: "10:00:00"
+                liters_of_water:
+                  type: integer
+                  example: 100
+                locale_id:
+                  type: string
+                  example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+        responses:
+          201:
+            description: Routine created successfully
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                temperature:
+                  type: number
+                  format: float
+                humidity:
+                  type: number
+                  format: float
+                begin_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                liters_of_water:
+                  type: integer
+                locale_id:
+                  type: string
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+          400:
+            description: Missing required fields (liters_of_water, locale_id)
+          401:
+            description: Missing or invalid JWT token
+          403:
+            description: Forbidden – users with role "user" may not create routines
+        """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
@@ -44,12 +177,153 @@ def create_route():
 @routine_.route('/<string:routine_id>', methods=['GET'])
 @jwt_required()
 def get_route(routine_id):
+    """
+        Retrieve a specific irrigation routine by ID
+        ---
+        tags:
+          - routine
+        security:
+          - Bearer: []
+        parameters:
+          - name: routine_id
+            in: path
+            type: string
+            required: true
+            description: UUID of the routine to retrieve
+        responses:
+          200:
+            description: Routine object returned successfully
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                temperature:
+                  type: number
+                  format: float
+                  example: 25.5
+                humidity:
+                  type: number
+                  format: float
+                  example: 60.0
+                begin_time:
+                  type: string
+                  format: time
+                  example: "08:00:00"
+                end_time:
+                  type: string
+                  format: time
+                  example: "10:00:00"
+                liters_of_water:
+                  type: integer
+                  example: 100
+                locale_id:
+                  type: string
+                  example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+                created_at:
+                  type: string
+                  format: date-time
+                  example: "2025-06-16T08:00:00Z"
+                updated_at:
+                  type: string
+                  format: date-time
+                  example: "2025-06-16T09:00:00Z"
+          401:
+            description: Missing or invalid JWT token
+          404:
+            description: Routine not found
+        """
+
     routine = get_routine(routine_id)
     return jsonify(routine.serialize()), 200
 
 @routine_.route('/<string:routine_id>', methods=['PATCH'])
 @jwt_required()
 def update_route(routine_id):
+    """
+        Update an existing irrigation routine by ID (operator or admin only)
+        ---
+        tags:
+          - routine
+        security:
+          - Bearer: []
+        parameters:
+          - name: routine_id
+            in: path
+            type: string
+            required: true
+            description: UUID of the routine to update
+          - in: body
+            name: updates
+            description: Fields to update (any combination of temperature, humidity, begin_time, end_time, liters_of_water, locale_id)
+            required: true
+            schema:
+              type: object
+              properties:
+                temperature:
+                  type: number
+                  format: float
+                  example: 26.0
+                humidity:
+                  type: number
+                  format: float
+                  example: 55.0
+                begin_time:
+                  type: string
+                  format: time
+                  example: "07:30:00"
+                end_time:
+                  type: string
+                  format: time
+                  example: "09:30:00"
+                liters_of_water:
+                  type: integer
+                  example: 120
+                locale_id:
+                  type: string
+                  example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+        responses:
+          200:
+            description: Routine updated successfully
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                temperature:
+                  type: number
+                  format: float
+                humidity:
+                  type: number
+                  format: float
+                begin_time:
+                  type: string
+                  format: time
+                end_time:
+                  type: string
+                  format: time
+                liters_of_water:
+                  type: integer
+                locale_id:
+                  type: string
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+          400:
+            description: No valid fields provided for update
+          401:
+            description: Missing or invalid JWT token
+          403:
+            description: Forbidden – users with role "user" may not update routines
+          404:
+            description: Routine not found
+        """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
@@ -78,6 +352,30 @@ def update_route(routine_id):
 @routine_.route('/<string:routine_id>', methods=['DELETE'])
 @jwt_required()
 def delete_route(routine_id):
+    """
+        Delete an irrigation routine by ID (operator or admin only)
+        ---
+        tags:
+          - routine
+        security:
+          - Bearer: []
+        parameters:
+          - name: routine_id
+            in: path
+            type: string
+            required: true
+            description: UUID of the routine to delete
+        responses:
+          204:
+            description: Routine deleted successfully (no content)
+          401:
+            description: Missing or invalid JWT token
+          403:
+            description: Forbidden – users with role "user" may not delete routines
+          404:
+            description: Routine not found
+        """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
