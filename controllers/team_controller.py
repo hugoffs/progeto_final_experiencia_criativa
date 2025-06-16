@@ -1,5 +1,5 @@
-from flask import Blueprint, request, jsonify
-
+from flask import Blueprint, request, jsonify, render_template,redirect , url_for
+from flask_jwt_extended import jwt_required, get_jwt
 from services.team_service import list_teams, create_team, get_team, update_team, delete_team
 import uuid
 
@@ -77,8 +77,7 @@ def add_team():
 def tema():
     teams = list_teams()
     # Similar à rota index, precisa de user_permission se team.html depender via base.html
-    user_permission = FakeUser(1, "admin") # Placeholder
-    return render_template("team.html", teams=teams, user_permission=user_permission)
+    return render_template("team.html", teams=teams, )
 
 @team_.route("/edit_team")
 def updrate_team():

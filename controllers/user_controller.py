@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.exceptions import BadRequest
+from flask_jwt_extended import jwt_required, get_jwt
 
 from services.user_service import list_users, create_user, get_user, update_user, delete_user
 
