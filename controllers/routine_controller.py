@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from flask_jwt_extended import jwt_required, get_jwt
 
 from services.routine_service import update_routine, get_routine, delete_routine, list_routines, create_routine
@@ -85,3 +85,13 @@ def delete_route(routine_id):
     routine = get_routine(routine_id)
     delete_routine(routine)
     return '', 204
+
+#--------------------- WEb ----------------------------
+@routine_.route("/list_routines")
+def list_routines_route():
+    routines = list_routines()
+    return render_template("routine.html", routines=routines)
+
+@routine_.route('/register_routine')
+def register_routine():
+    return render_template('register_routine.html')

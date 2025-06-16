@@ -6,7 +6,7 @@ def list_routines():
     return Routine.query.all()
 
 def create_routine(temperature=None, humidity=None, begin_time=None,
-                   end_time=None, liters_of_water=0, locale_id=None):
+                    end_time=None, liters_of_water=0, locale_id=None):
     routine = Routine(
         id=str(uuid.uuid4()),
         temperature=temperature,

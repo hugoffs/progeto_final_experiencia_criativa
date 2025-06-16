@@ -29,8 +29,8 @@
                         <tr>
                             <td>{{ user.name }}</td>
                             <td>{{ user.time }}</td>
-                            <td><a href="/edt_user/{{ user.id }}">Editar</a></td>
-                            <td><a href="/del_user/{{ user.id }}">Excluir</a></td>
+                            <td><a href="/api/user/edit_user?id={{ user.id}}">Editar</a></td>
+                            <td><a href="/api/user/del_user?id={{ user.id }}">Excluir</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -42,7 +42,7 @@
 
     <div class="card-lower">
         <div class="botoes">
-            <a href="#">
+            <a href="api/user/register_user">
                 <button>Cadastrar Usuário</button>
             </a>
         </div>

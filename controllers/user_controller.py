@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect
 from werkzeug.exceptions import BadRequest
 from flask_jwt_extended import jwt_required, get_jwt
 
@@ -349,3 +349,63 @@ def delete_route(user_id):
     return '', 204
 
 #-------------------- WEB ----------------------------
+@user_.route("/list_users")
+@jwt_required()
+def list_users_route():
+  claims = get_jwt()
+  if claims.get('role') != 'admin':
+    return {'error': 'Acesso negado'}, 403
+  
+  users = list_users()
+  return render_template("users.html", users=users)
+
+@user_.route('/register_user')
+@jwt_required()
+def register_user():
+  claims = get_jwt()
+  if claims.get('role') != 'admin':
+    return {'error': 'Acesso negado'}, 403
+  
+  return render_template('registrar_usuario.html')
+
+
+@user_.route("/add_user", methods=["POST"])
+def add_user():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    password = request.form.get("password")
+    role = request.form.get("role")
+    team_id = request.form.get("team_id")
+    create_user(name=name, email=email, password=password, role=role, team_id=team_id)
+    return redirect("/api/user/list_users")
+
+@user_.route("/edit_user")
+def edt_user():
+    id = request.args.get("id")
+    user = get_user(id)
+    return render_template("update_user.html", users=[user])
+
+@user_.route("/update_users", methods=["POST"])
+def update_users():
+    id = request.form.get("id")
+    name = request.form.get("name")
+    email = request.form.get("email")
+    passowrd = request.form.get("password")
+    time = request.form.get("time")
+    team_id = request.form.get("team_id")
+    user = get_user(id)
+    user = update_user(user, name=name, email=email, password=passowrd, time=time, team_id=team_id)
+    return redirect("/api/user/list_users")
+
+@user_.route("/del_user")
+@jwt_required()
+def del_user():
+  claims = get_jwt()
+  if claims.get('role') != 'admin':
+    return {'error': 'Acesso negado'}, 403
+  id = request.args.get("id")
+  user = get_user(id)
+
+
+
+

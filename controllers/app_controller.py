@@ -18,26 +18,6 @@ from controllers.user_controller import user_
 from services.team_service import list_teams # Importar o serviço para listar times
 from models.db import db, instance
 
-
-# Classe fake para testar o template
-class FakeRoutine:
-    def __init__(self, id, name, horario_inicio, horario_fim):
-        self.id = id
-        self.name = name
-        self.horario_inicio = horario_inicio
-        self.horario_fim = horario_fim
-
-
-class FakeUser:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-
-class Faketeam: 
-    def __init__(self, id ,name):
-        self.id = id
-        self.name = name
-
 load_dotenv()
 
 def create_app():

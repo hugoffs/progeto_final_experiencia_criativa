@@ -32,7 +32,7 @@
                     <input type="email" name="email" placeholder="E-mail" value="{{ user.email }}" required>
 
                     <p>Time</p>
-                    <select name="time" value="{{ user.time.id }}"">
+                    <select name="time" value="{{ user.team_id }}"">
                         {% for time in times %}
                         <option value="{{ time.id }}">{{ time.nome }}</option>
                         {% endfor %}
