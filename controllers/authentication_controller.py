@@ -1,5 +1,5 @@
-from flask import Blueprint, request, render_template, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt, create_access_token
+from flask import Blueprint, request, render_template, jsonify, redirect
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt, create_access_token, set_access_cookies
 from werkzeug.exceptions import BadRequest
 
 from models import User
@@ -29,46 +29,51 @@ def protected_page_example():
 @authentication_.route('/login', methods=['POST'])
 def login():
     """
-    User login endpoint to obtain a JWT access token
-    ---
-    tags:
-      - authentication
-    consumes:
-      - application/json
-    parameters:
-      - in: body
-        name: credentials
-        description: User email and password
-        required: true
-        schema:
-          type: object
-          required:
-            - email
-            - password
-          properties:
-            email:
-              type: string
-              format: email
-              example: user@example.com
-            password:
-              type: string
-              format: password
-              example: yourpassword
-    responses:
-      200:
-        description: Authentication successful, returns access token
-        schema:
-          type: object
-          properties:
-            access_token:
-              type: string
-              description: JWT access token
-      400:
-        description: Missing email or password
-      401:
-        description: Invalid credentials
-    security: []
-    """
+     User login endpoint: validates credentials and sets a JWT in an HttpOnly cookie
+     ---
+     tags:
+       - authentication
+     consumes:
+       - application/json
+     parameters:
+       - in: body
+         name: credentials
+         description: User email and password
+         required: true
+         schema:
+           type: object
+           required:
+             - email
+             - password
+           properties:
+             email:
+               type: string
+               format: email
+               example: user@example.com
+             password:
+               type: string
+               format: password
+               example: yourpassword
+     responses:
+       200:
+         description: Login successful; JWT is set in an HttpOnly cookie
+         headers:
+           Set-Cookie:
+             description: |
+               HTTP-only cookie named “access_token_cookie” containing the JWT.
+               Cookie is marked Secure and SameSite=Lax.
+         schema:
+           type: object
+           properties:
+             login:
+               type: boolean
+               example: true
+       400:
+         description: Missing email or password
+       401:
+         description: Invalid credentials
+     security: []
+     """
 
     data = request.get_json() or {}
     email    = data.get('email')
@@ -84,7 +89,9 @@ def login():
     additional_claims = {'role': user.role}
     access_token = create_access_token(identity=user.id,
                                         additional_claims=additional_claims)
-    return jsonify(access_token=access_token), 200
+    resp = jsonify({"login": True})
+    set_access_cookies(resp, access_token)
+    return resp, 200
 
 
 @authentication_.route('/login', methods=['GET'])
@@ -92,6 +99,6 @@ def login():
 def login_page():
     current_user_id = get_jwt_identity()
     if current_user_id is None:
-        return render_template('login.html', error='Invalid credentials')
+        return render_template('login.html')
 
-    return render_template('dashboard.html', username=current_user_id)
+    return redirect('/')

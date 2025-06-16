@@ -6,11 +6,13 @@ import uuid
 team_ = Blueprint('team', __name__, template_folder="./views", static_folder="./static", root_path="./")
 
 @team_.route('/', methods=['GET'])
+@jwt_required()
 def list_route():
     teams = list_teams()
     return jsonify([t.serialize() for t in teams]), 200 
 
 @team_.route('/', methods=['POST'])
+@jwt_required()
 def create_route():
     claims = get_jwt()
     if claims.get('role') != 'admin':
@@ -23,11 +25,13 @@ def create_route():
     return jsonify(team.serialize()), 201
 
 @team_.route('/<string:team_id>', methods=['GET'])
+@jwt_required()
 def get_route(team_id):
     team = get_team(team_id)
     return jsonify(team.serialize()), 200
 
 @team_.route('/<string:team_id>', methods=['PATCH'])
+@jwt_required()
 def update_route(team_id):
     claims = get_jwt()
     if claims.get('role') != 'admin':
@@ -42,6 +46,7 @@ def update_route(team_id):
     return jsonify(team.serialize()), 200
 
 @team_.route('/<string:team_id>', methods=['DELETE'])
+@jwt_required()
 def delete_route(team_id):
     claims = get_jwt()
     if claims.get('role') != 'admin':
@@ -80,7 +85,7 @@ def tema():
     return render_template("team.html", teams=teams, )
 
 @team_.route("/edit_team")
-def updrate_team():
+def update_team():
     id = request.args.get("id")
     team = get_team(id)
     return render_template("update_team.html", team=team)

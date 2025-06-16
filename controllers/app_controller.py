@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from flasgger import Swagger
 from flask import Flask, render_template
-from flask_jwt_extended import JWTManager
+from flask_jwt_extended import JWTManager, jwt_required, get_jwt
 
 from controllers.authentication_controller import authentication_
 from controllers.error_controller import error_
@@ -56,6 +56,9 @@ def create_app():
 
     # chave secreta para assinar os tokens (guarde em .env)
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+    # config.py
+    app.config['JWT_TOKEN_LOCATION'] = ["cookies"]
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = False  # ou True, se você lidar com CSRF
 
     db.init_app(app)
     JWTManager(app)
@@ -85,9 +88,13 @@ def create_app():
 
     # -------------------------- Rota de teste do HTML --------------------------
     @app.route('/')
+    @jwt_required()
     def index():
+        claims = get_jwt()
+        if claims.get('role') != 'admin':
+            return {'error': 'Acesso negado'}, 403
+
         current_teams = list_teams()
-        # Você precisará da sua lógica real para obter o usuário/permissão atual
         return render_template('team.html',  teams=current_teams)
 
     return app
