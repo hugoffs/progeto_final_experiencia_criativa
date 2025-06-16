@@ -43,3 +43,13 @@ def login():
     access_token = create_access_token(identity=user.id,
                                        additional_claims=additional_claims)
     return jsonify(access_token=access_token), 200
+
+
+@authentication_.route('/login', methods=['GET'])
+@jwt_required(optional=True)
+def login_page():
+    current_user_id = get_jwt_identity()
+    if current_user_id is None:
+        return render_template('login.html', error='Invalid credentials')
+
+    return render_template('dashboard.html', username=current_user_id)
