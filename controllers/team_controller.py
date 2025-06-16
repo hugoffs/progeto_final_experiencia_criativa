@@ -1,44 +1,38 @@
-#team_controller.py
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for
+from flask import Blueprint, request, jsonify
+
 from services.team_service import list_teams, create_team, get_team, update_team, delete_team
 import uuid
 
 team_ = Blueprint('team', __name__, template_folder="./views", static_folder="./static", root_path="./")
 
-class FakeUser:
-    def __init__(self, id, name):
-        self.id = id
-        self.name = name
-
-global  user 
-
-# --------- API JSON -----------
-
-@team_.route('/api/teams')
+@team_.route('/', methods=['GET'])
 def list_route():
     teams = list_teams()
     return jsonify([t.serialize() for t in teams]), 200 
 
-
-
-
-@team_.route('/api/teams', methods=['POST'])
+@team_.route('/', methods=['POST'])
 def create_route():
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+        return {'error': 'Acesso negado'}, 403
+
     data = request.get_json() or {}
     if not data.get('name'):
         return {'error': 'name obrigatório'}, 400
     team = create_team(name=data['name'])
     return jsonify(team.serialize()), 201
 
-
-@team_.route('/api/teams/<string:team_id>', methods=['GET'])
+@team_.route('/<string:team_id>', methods=['GET'])
 def get_route(team_id):
     team = get_team(team_id)
     return jsonify(team.serialize()), 200
 
-
-@team_.route('/api/teams/<string:team_id>', methods=['PATCH'])
+@team_.route('/<string:team_id>', methods=['PATCH'])
 def update_route(team_id):
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+        return {'error': 'Acesso negado'}, 403
+
     team = get_team(team_id)
     data = request.get_json() or {}
     name = data.get('name')
@@ -47,9 +41,12 @@ def update_route(team_id):
     team = update_team(team, name=name)
     return jsonify(team.serialize()), 200
 
-
-@team_.route('/teams/<string:team_id>', methods=['DELETE']) # Alterado de /api/teams para /teams
+@team_.route('/<string:team_id>', methods=['DELETE'])
 def delete_route(team_id):
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+        return {'error': 'Acesso negado'}, 403
+
     team = get_team(team_id)
     if not team:
         return jsonify({"error": "Time não encontrado"}), 404

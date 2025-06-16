@@ -1,18 +1,25 @@
 from datetime import datetime
 
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt
 
 from services.routine_service import update_routine, get_routine, delete_routine, list_routines, create_routine
 
 routine_ = Blueprint('routine', __name__, template_folder="./views", static_folder="./static", root_path="./")
 
 @routine_.route('/', methods=['GET'])
+@jwt_required()
 def list_route():
     routines = list_routines()
     return jsonify([r.serialize() for r in routines]), 200
 
 @routine_.route('/', methods=['POST'])
+@jwt_required()
 def create_route():
+    claims = get_jwt()
+    if claims.get('role') == 'user':
+        return {'error': 'Acesso negado'}, 403
+
     data = request.get_json() or {}
     # Validações mínimas
     if 'liters_of_water' not in data or 'locale_id' not in data:
@@ -35,12 +42,18 @@ def create_route():
     return jsonify(routine.serialize()), 201
 
 @routine_.route('/<string:routine_id>', methods=['GET'])
+@jwt_required()
 def get_route(routine_id):
     routine = get_routine(routine_id)
     return jsonify(routine.serialize()), 200
 
 @routine_.route('/<string:routine_id>', methods=['PATCH'])
+@jwt_required()
 def update_route(routine_id):
+    claims = get_jwt()
+    if claims.get('role') == 'user':
+        return {'error': 'Acesso negado'}, 403
+
     routine = get_routine(routine_id)
     data = request.get_json() or {}
     attrs = {}
@@ -63,7 +76,12 @@ def update_route(routine_id):
     return jsonify(routine.serialize()), 200
 
 @routine_.route('/<string:routine_id>', methods=['DELETE'])
+@jwt_required()
 def delete_route(routine_id):
+    claims = get_jwt()
+    if claims.get('role') == 'user':
+        return {'error': 'Acesso negado'}, 403
+
     routine = get_routine(routine_id)
     delete_routine(routine)
     return '', 204
