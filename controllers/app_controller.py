@@ -1,6 +1,7 @@
 import os
 
 from dotenv import load_dotenv
+from flasgger import Swagger
 from flask import Flask, render_template
 from flask_jwt_extended import JWTManager
 
@@ -57,6 +58,16 @@ def create_app():
 
     db.init_app(app)
     JWTManager(app)
+
+    template = {
+        "swagger": "2.0",
+        "info": {
+            "title":       "LDev API",
+            "description": "A RESTful API for IoT-based irrigation management. Provides JWT-secured endpoints to manage teams and users, define locations and devices, schedule and run irrigation routines, collect sensor data logs, report device errors, and track user activities.",
+            "version":     "Indev 0.1.0"
+        }
+    }
+    Swagger(app, template=template)
 
     # -------------------------- Rota de teste do HTML --------------------------
     @app.route('/')
