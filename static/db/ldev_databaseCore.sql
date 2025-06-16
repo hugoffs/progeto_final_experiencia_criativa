@@ -17,7 +17,7 @@ CREATE TABLE `users` (
     `id` VARCHAR(12) NOT NULL PRIMARY KEY,
     `email` VARCHAR(45) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
-    `role` ENUM('superuser', 'commonuser') NOT NULL DEFAULT 'commonuser',
+    `role` ENUM('user', 'operator', 'admin') NOT NULL DEFAULT 'user',
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `team_id` VARCHAR(12),

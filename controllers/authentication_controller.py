@@ -28,6 +28,48 @@ def protected_page_example():
 
 @authentication_.route('/login', methods=['POST'])
 def login():
+    """
+    User login endpoint to obtain a JWT access token
+    ---
+    tags:
+      - authentication
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: credentials
+        description: User email and password
+        required: true
+        schema:
+          type: object
+          required:
+            - email
+            - password
+          properties:
+            email:
+              type: string
+              format: email
+              example: user@example.com
+            password:
+              type: string
+              format: password
+              example: yourpassword
+    responses:
+      200:
+        description: Authentication successful, returns access token
+        schema:
+          type: object
+          properties:
+            access_token:
+              type: string
+              description: JWT access token
+      400:
+        description: Missing email or password
+      401:
+        description: Invalid credentials
+    security: []
+    """
+
     data = request.get_json() or {}
     email    = data.get('email')
     password = data.get('password')
