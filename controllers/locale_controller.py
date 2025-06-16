@@ -8,12 +8,114 @@ locale_ = Blueprint('locale', __name__, template_folder="./views", static_folder
 @locale_.route('/', methods=['GET'])
 @jwt_required()
 def list_route():
+    """
+        Retrieve all locales
+        ---
+        tags:
+          - locale
+        security:
+          - Bearer: []
+        responses:
+          200:
+            description: A JSON array of locale objects
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                  name:
+                    type: string
+                    example: "Main Farm"
+                  note:
+                    type: string
+                    example: "North Wing"
+                  team_id:
+                    type: string
+                    example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2025-06-16T12:34:56Z"
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: "2025-06-16T13:45:00Z"
+          401:
+            description: Missing or invalid JWT token
+        """
+
     locs = list_locales()
     return jsonify([l.serialize() for l in locs]), 200
 
 @locale_.route('/', methods=['POST'])
 @jwt_required()
 def create_route():
+    """
+        Create a new locale (operator or admin only)
+        ---
+        tags:
+          - locale
+        security:
+          - Bearer: []
+        consumes:
+          - application/json
+        parameters:
+          - in: body
+            name: locale
+            description: Locale details to create
+            required: true
+            schema:
+              type: object
+              required:
+                - name
+                - team_id
+              properties:
+                name:
+                  type: string
+                  example: "Main Farm"
+                team_id:
+                  type: string
+                  example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+                note:
+                  type: string
+                  example: "North Wing"
+        responses:
+          201:
+            description: Locale created successfully
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                name:
+                  type: string
+                  example: "Main Farm"
+                note:
+                  type: string
+                  example: "North Wing"
+                team_id:
+                  type: string
+                  example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+                created_at:
+                  type: string
+                  format: date-time
+                  example: "2025-06-16T12:34:56Z"
+                updated_at:
+                  type: string
+                  format: date-time
+                  example: "2025-06-16T13:45:00Z"
+          400:
+            description: Missing required fields (name and team_id)
+          401:
+            description: Missing or invalid JWT token
+          403:
+            description: Forbidden – users with role "user" may not create locales
+        """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
@@ -31,12 +133,119 @@ def create_route():
 @locale_.route('/<string:locale_id>', methods=['GET'])
 @jwt_required()
 def get_route(locale_id):
+    """
+    Retrieve a specific locale by ID
+    ---
+    tags:
+      - locale
+    security:
+      - Bearer: []
+    parameters:
+      - name: locale_id
+        in: path
+        type: string
+        required: true
+        description: UUID of the locale to retrieve
+    responses:
+      200:
+        description: Locale object returned successfully
+        schema:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            name:
+              type: string
+              example: "Main Farm"
+            note:
+              type: string
+              example: "North Wing"
+            team_id:
+              type: string
+              example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+            created_at:
+              type: string
+              format: date-time
+              example: "2025-06-16T12:34:56Z"
+            updated_at:
+              type: string
+              format: date-time
+              example: "2025-06-16T13:45:00Z"
+      401:
+        description: Missing or invalid JWT token
+      404:
+        description: Locale not found
+    """
+
     loc = get_locale(locale_id)
     return jsonify(loc.serialize()), 200
 
 @locale_.route('/<string:locale_id>', methods=['PATCH'])
 @jwt_required()
 def update_route(locale_id):
+    """
+        Update an existing locale by ID (operator or admin only)
+        ---
+        tags:
+          - locale
+        security:
+          - Bearer: []
+        consumes:
+          - application/json
+        parameters:
+          - name: locale_id
+            in: path
+            description: UUID of the locale to update
+            required: true
+            type: string
+          - in: body
+            name: updates
+            description: Fields to update (any of name, note, team_id)
+            required: true
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Updated Farm Name"
+                note:
+                  type: string
+                  example: "Updated note"
+                team_id:
+                  type: string
+                  example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+        responses:
+          200:
+            description: Locale updated successfully
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                name:
+                  type: string
+                note:
+                  type: string
+                team_id:
+                  type: string
+                created_at:
+                  type: string
+                  format: date-time
+                updated_at:
+                  type: string
+                  format: date-time
+          400:
+            description: No fields provided to update
+          401:
+            description: Missing or invalid JWT token
+          403:
+            description: Forbidden – users with role "user" may not update locales
+          404:
+            description: Locale not found
+        """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
@@ -57,6 +266,30 @@ def update_route(locale_id):
 @locale_.route('/<string:locale_id>', methods=['DELETE'])
 @jwt_required()
 def delete_route(locale_id):
+    """
+    Delete a locale by ID (operator or admin only)
+    ---
+    tags:
+      - locale
+    security:
+      - Bearer: []
+    parameters:
+      - name: locale_id
+        in: path
+        type: string
+        required: true
+        description: UUID of the locale to delete
+    responses:
+      204:
+        description: Locale deleted successfully (no content)
+      401:
+        description: Missing or invalid JWT token
+      403:
+        description: Forbidden – users with role "user" may not delete locales
+      404:
+        description: Locale not found
+    """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403

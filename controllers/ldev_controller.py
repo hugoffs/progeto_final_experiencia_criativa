@@ -8,12 +8,84 @@ ldev_ = Blueprint('ldev', __name__, template_folder="./views", static_folder="./
 @ldev_.route('/', methods=['GET'])
 @jwt_required()
 def list_route():
+    """
+        Retrieve all IoT devices
+        ---
+        tags:
+          - ldev
+        security:
+          - Bearer: []
+        responses:
+          200:
+            description: A JSON array of LDev objects
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                  name:
+                    type: string
+                    example: "Device A"
+                  latitude:
+                    type: number
+                    format: double
+                    example: -23.550520
+                  longitude:
+                    type: number
+                    format: double
+                    example: -46.633308
+                  locale_id:
+                    type: string
+                    example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+          401:
+            description: Missing or invalid JWT token
+        """
+
     all_ldevs = list_ldevs()
     return jsonify([l.serialize() for l in all_ldevs]), 200
 
 @ldev_.route('/', methods=['POST'])
 @jwt_required()
 def create_route():
+    """
+        Retrieve all IoT devices
+        ---
+        tags:
+          - ldev
+        security:
+          - Bearer: []
+        responses:
+          200:
+            description: A JSON array of LDev objects
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                  name:
+                    type: string
+                    example: "Device A"
+                  latitude:
+                    type: number
+                    format: double
+                    example: -23.550520
+                  longitude:
+                    type: number
+                    format: double
+                    example: -46.633308
+                  locale_id:
+                    type: string
+                    example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+          401:
+            description: Missing or invalid JWT token
+        """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
@@ -40,6 +112,48 @@ def get_route(ldev_id):
 @ldev_.route('/<string:ldev_id>', methods=['PATCH'])
 @jwt_required()
 def update_route(ldev_id):
+    """
+        Retrieve a specific IoT device by ID
+        ---
+        tags:
+          - ldev
+        security:
+          - Bearer: []
+        parameters:
+          - name: ldev_id
+            in: path
+            type: string
+            required: true
+            description: UUID of the device to retrieve
+        responses:
+          200:
+            description: Device object returned successfully
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                name:
+                  type: string
+                  example: "Irrigation Sensor"
+                latitude:
+                  type: number
+                  format: double
+                  example: -23.550520
+                longitude:
+                  type: number
+                  format: double
+                  example: -46.633308
+                locale_id:
+                  type: string
+                  example: "1b645389-2473-446f-8f22-6f6b72a4a516"
+          401:
+            description: Missing or invalid JWT token
+          404:
+            description: Device not found
+        """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
@@ -60,6 +174,30 @@ def update_route(ldev_id):
 @ldev_.route('/<string:ldev_id>', methods=['DELETE'])
 @jwt_required()
 def delete_route(ldev_id):
+    """
+        Delete an IoT device by ID (operator or admin only)
+        ---
+        tags:
+          - ldev
+        security:
+          - Bearer: []
+        parameters:
+          - name: ldev_id
+            in: path
+            type: string
+            required: true
+            description: UUID of the device to delete
+        responses:
+          204:
+            description: Device deleted successfully (no content)
+          401:
+            description: Missing or invalid JWT token
+          403:
+            description: Forbidden – users with role "user" may not delete devices
+          404:
+            description: Device not found
+        """
+
     claims = get_jwt()
     if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
