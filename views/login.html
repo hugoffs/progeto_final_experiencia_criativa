@@ -1,36 +1,121 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <title>Login</title>
-        <link rel="stylesheet" href="../static/css/base_login.css">
-        <!-- Fontes -->
-        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">   
-    </head>
-    <body>
-        <div class="card-login">
-            <img alt="Logo PUCPR" class="logo-img" src="../static/img/pucprlogo.png">
-            <div>
-                <form action="">
-                    <div class="inputs">
-                        <div class="input-login">
-                            <label for="email">E-mail</label>
-                            <input id="email" placeholder="Digite seu e-mail" type="email">
-                        </div>
-                        <div class="input-login">
-                            <label for="password">Senha</label>
-                            <input id="password" placeholder="Digite sua senha" type="password">
-                        </div>
-                    </div>
-
-                    <div class="button-div">
-                        <button disabled>Entrar</button>
-                        <div>
-                            <a href="/recuperar_conta">Esqueceu a senha? <i class="ph ph-arrow-square-out"></i></a>
-                        </div>
-                    </div>
-                </form>
-            </div>
+  <head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/base_login.css') }}"
+    >
+    <!-- Fontes -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    >
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    >
+  </head>
+  <body>
+    <div class="card-login">
+      <img
+        alt="Logo PUCPR"
+        class="logo-img"
+        src="{{ url_for('static', filename='img/pucprlogo-removebg-preview.png') }}"
+      >
+      <form id="loginForm">
+        <div class="inputs">
+          <div class="input-login">
+            <label for="email">E-mail</label>
+            <input
+              id="email"
+              name="email"
+              placeholder="Digite seu e-mail"
+              type="email"
+              required
+            >
+          </div>
+          <div class="input-login">
+            <label for="password">Senha</label>
+            <input
+              id="password"
+              name="password"
+              placeholder="Digite sua senha"
+              type="password"
+              required
+            >
+          </div>
         </div>
-    </body>
+
+        <div class="button-div">
+          <button id="submitBtn" disabled>Entrar</button>
+          <div>
+            <a href="/recuperar_conta">
+              Esqueceu a senha? <i class="ph ph-arrow-square-out"></i>
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function authHeaders(extraHeaders = {}) {
+        const token = localStorage.getItem('access_token');
+        return {
+          'Content-Type': 'application/json',
+          ...(token && { 'Authorization': `Bearer ${token}` }),
+          ...extraHeaders
+        };
+      }
+
+      async function apiFetch(path, options = {}) {
+        const res = await fetch(path, {
+          ...options,
+          headers: authHeaders(options.headers)
+        });
+        // opcional: checar 401 e forçar logout
+        if (res.status === 401) {
+          localStorage.removeItem('access_token');
+          window.location.href = '/auth/login';
+          return;
+        }
+        return res;
+      }
+      const emailInput = document.getElementById('email');
+      const passInput  = document.getElementById('password');
+      const submitBtn  = document.getElementById('submitBtn');
+
+      // habilita botão só quando ambos tiverem valor
+      function toggleBtn() {
+        submitBtn.disabled = !(emailInput.value && passInput.value);
+      }
+      emailInput.addEventListener('input', toggleBtn);
+      passInput.addEventListener('input', toggleBtn);
+
+      document.getElementById('loginForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const payload = {
+          email: emailInput.value,
+          password: passInput.value
+        };
+
+        const res = await fetch('{{ url_for("authentication.login") }}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          // armazena token
+          localStorage.setItem('access_token', data.access_token);
+          // redireciona para dashboard ou home
+          window.location.href = '/';
+        } else {
+          alert(data.error || 'Falha no login');
+        }
+      });
+    </script>
+  </body>
 </html>
