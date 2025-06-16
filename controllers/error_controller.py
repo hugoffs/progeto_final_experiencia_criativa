@@ -8,6 +8,10 @@ error_ = Blueprint('error', __name__, template_folder="./views", static_folder="
 @error_.route('/', methods=['GET'])
 @jwt_required()
 def list_route():
+    claims = get_jwt()
+    if claims.get('role') == 'user':
+        return {'error': 'Acesso negado'}, 403
+
     errs = list_errors()
     return jsonify([e.serialize() for e in errs]), 200
 
@@ -33,7 +37,7 @@ def create_route():
 @jwt_required()
 def get_route(error_id):
     claims = get_jwt()
-    if claims.get('role') != 'operator':
+    if claims.get('role') == 'user':
         return {'error': 'Acesso negado'}, 403
 
     err = get_error(error_id)
