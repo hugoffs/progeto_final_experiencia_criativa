@@ -92,3 +92,7 @@ def login():
     resp = jsonify({"login": True})
     set_access_cookies(resp, access_token)
     return resp, 200
+
+@authentication_.route('/home')
+def home():
+    return render_template('home.html')
