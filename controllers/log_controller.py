@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from flask_jwt_extended import jwt_required, get_jwt
 
 from services.log_service import list_logs, create_log, get_log, update_log, delete_log
@@ -223,3 +223,8 @@ def delete_route(log_id):
     log = get_log(log_id)
     delete_log(log)
     return '', 204
+
+#--------- web --------------------
+@log_.route("/dados_temporeal")
+def dados_temporeal():
+    return render_template("dados_temporeal.html")

@@ -28,9 +28,9 @@
                     {% for routine in routines %}
                         <tr>
                             <td>{{ routine.id }}</td>
-                            <td>{{ routine.horario_inicio }} - {{ routine.horario_fim }}</td>
-                            <td><a href="/edt_routine/{{ routine.id }}">Editar</a></td>
-                            <td><a href="/del_routine/{{ routine.id }}">Excluir</a></td>
+                            <td>{{ routine.begin_time }} - {{ routine.end_time }}</td>
+                            <td><a href="/api/routine/edt_routine?id={{ routine.id }}">Editar</a></td>
+                            <td><a href="/api/routine/del_routine?id={{ routine.id }}">Excluir</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -42,7 +42,7 @@
 
     <div class="card-lower">
         <div class="botoes">
-            <a href="/add_routine" class="botao-link">
+            <a href="/api/routine/register_routine" class="botao-link">
                 Cadastrar Rotina
             </a>
         </div>

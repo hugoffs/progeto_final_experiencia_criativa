@@ -458,3 +458,54 @@ def opicoes_avancadas():
         return redirect("/api/routine/list_routines")
 
     return render_template('opicoes_avancadas.html')
+
+@routine_.route("/edt_routine")
+def edit_routine():
+    id = request.args.get("id")
+    routines = get_routine(id)  # <-- Aqui você traz UM objeto, não uma lista
+    locales = list_locales()
+    return render_template("update_routine.html", routines=[routines], locales=locales)
+
+
+@routine_.route("/update_routine", methods=["POST"])
+def update_routine_route():
+    id = request.form.get("id")
+    begin_time = request.form.get("begin_time")
+    end_time = request.form.get("end_time")
+    liters_of_water = request.form.get("liters_of_water")
+    ativa = request.form.get("ativa")
+    locale_id = request.form.get("locale_id")
+
+    routine = get_routine(id)
+
+    update_routine(
+        routine,
+        begin_time=begin_time,
+        end_time=end_time,
+        liters_of_water=liters_of_water,
+        ativa=ativa,
+        locale_id=locale_id
+    )
+
+    return redirect("/api/routine/list_routines")
+
+
+@routine_.route("/update_routine_avancadas", methods=["POST"])
+def update_routine_avanc():
+    id = request.form.get("id")
+    umidade_min = request.form.get("umidade_min")
+    umidade_max = request.form.get("umidade_max")
+    temperatura_min = request.form.get("temperatura_min")
+    temperatura_max = request.form.get("temperatura_max")
+
+    routine = get_routine(id)
+
+    update_routine(
+        routine,
+        humidity_min=umidade_min,
+        humidity_max=umidade_max,
+        temperature_min=temperatura_min,
+        temperature_max=temperatura_max
+    )
+
+    return redirect("/api/routine/list_routines")

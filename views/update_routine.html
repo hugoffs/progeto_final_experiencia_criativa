@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Registrar Rotina{% endblock %}
+{% block title %}Registrar Rotina {% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register_routine.css') }}">
@@ -11,23 +11,23 @@
     <div class="titulo">
         <p>Nova Rotina</p>
     </div>
-    {% for rotina em torinas %}
-        <form action="#" method="post">
+    {% for routine in routines %}
+        <form action="http://localhost:8080/api/routine/update_routine" method="post">
             <div class="formulario">
                 <div class="form-left">
                     <p>Horário de Início</p>
-                    <input type="time" name="horario_inicio" value="{{ rotina.horario_inicio }}" required>
+                    <input type="time" name="horario_inicio" value="{{ routine.horario_inicio }}" required>
 
                     <p>Litros de Água</p>
-                    <input type="number" name="litros_agua" placeholder="Litros de Água" step="0.1" min="0" value="{{ rotina.litros_agua }}" required>
+                    <input type="number" name="litros_agua" placeholder="Litros de Água" step="0.1" min="0" value="{{ routine.litros_agua }}" required>
                 </div>
 
                 <div class="form-right">
                     <p>Horário de Fim</p>
-                    <input type="time" name="horario_fim" valeu="{{ rotina.horario_fim }}" required>
+                    <input type="time" name="horario_fim" valeu="{{ routine.horario_fim }}" required>
 
-                    <p>Definir rotina como ativa</p>
-                    <select name="ativa" value="{{ rotina.ativa }}"" required>
+                    <p>Definir routine como ativa</p>
+                    <select name="ativa" value="{{ routine.ativa }}"" required>
                         <option value="true">Sim</option>
                         <option value="false">Não</option>
                     </select>
@@ -39,7 +39,7 @@
                     <div class="espacamento"></div>
 
                     <div class="link">
-                        <a href="/update_routine_avancadas/{{ rotina.id }}" >Opções Avançadas</a>
+                        <a href="/update_routine_avancadas/{{ routine.id }}" >Opções Avançadas</a>
                     </div>
 
                     <button type="submit" class="btn-cadastrar">Cadastrar</button>

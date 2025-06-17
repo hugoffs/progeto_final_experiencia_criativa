@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Registrar Rotina Opições avançadas {% endblock %}
-
+{% block title %}Registrar Rotina Opções Avançadas{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/register_routine.css') }}">
@@ -10,17 +9,20 @@
 {% block content %}
     <div class="card-padrao">
         <div class="titulo">
-            <p>Registrar Rotina Opições avançadas</p>
+            <p>Registrar Rotina Opções Avançadas</p>
         </div>
-        {% for routine in rotinias %}
-            <form action="#" method="post">
+
+        {% for routine in routines %}
+            <form action="http://localhost:8080/api/routine/update_routine_avancadas" method="post">
+                <input type="hidden" name="id" value="{{ routine.id }}">
+
                 <div class="formulario">
                     <div class="form-left">
-                        <p>Umidade Minima %</p>
-                        <input type="number" name="umidade_min" placeholder="Umidade Minima" step="0.1" min="0" value="{{ routine.umidade_min }}" required>
+                        <p>Umidade Mínima %</p>
+                        <input type="number" name="umidade_min" placeholder="Umidade Mínima" step="0.1" min="0" value="{{ routine.umidade_min }}" required>
 
                         <p>Temperatura mínima C°</p>
-                        <input type="number" name="temperatura_min" placeholder="Temperatura mínima" step="0.1" min="0" value="{{ routine.temperatura_min }}"" required>
+                        <input type="number" name="temperatura_min" placeholder="Temperatura mínima" step="0.1" min="0" value="{{ routine.temperatura_min }}" required>
                     </div>
 
                     <div class="form-right">
