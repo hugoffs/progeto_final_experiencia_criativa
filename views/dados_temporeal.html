@@ -31,7 +31,7 @@
         manualStatus = !manualStatus;
         const valor = manualStatus ? 1 : 0;
 
-        fetch('/mqtt/send', {
+        fetch('/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ valor: valor })

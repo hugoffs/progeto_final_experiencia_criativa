@@ -1,5 +1,3 @@
-# app controller
-
 import os
 from dotenv import load_dotenv
 
@@ -22,6 +20,7 @@ from controllers.team_controller import team_
 from controllers.user_controller import user_
 from controllers.api_controller import api_
 from controllers.mqtt_controller import mqtt_
+
 
 # Models e serviços
 from models.db import db, instance
@@ -61,7 +60,7 @@ def create_app():
     app.register_blueprint(team_, url_prefix='/api/team')
     app.register_blueprint(user_, url_prefix='/api/user')
     app.register_blueprint(api_, url_prefix='/api')
-    app.register_blueprint(mqtt_, url_prefix='/api/mqtt')
+    app.register_blueprint(mqtt_)
 
     # 🔥 Configuração Swagger
     template = {

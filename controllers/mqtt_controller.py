@@ -3,7 +3,7 @@ import paho.mqtt.publish as publish
 
 mqtt_ = Blueprint('mqtt', __name__)
 
-@mqtt_.route('/mqtt/send', methods=['POST'])
+@mqtt_.route('/send', methods=['POST'])
 def mqtt_send():
     data = request.get_json()
     valor = data.get('valor')
@@ -13,7 +13,7 @@ def mqtt_send():
 
     try:
         publish.single(
-            topic='mvp/atuador',
+            topic='mvp/ativacao',
             payload=str(valor),
             hostname='broker.mqttdashboard.com'
         )
