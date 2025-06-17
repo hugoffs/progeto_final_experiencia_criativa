@@ -8,18 +8,98 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let manualStatus = false; // false = desligado, true = ligado
 
+    function toggleManual() {
+        manualStatus = !manualStatus;
+        const valor = manualStatus ? 1 : 0;
 
+        fetch('/mqtt/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ valor: valor })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('btnManual').innerText = manualStatus ? 'Desligar Manualmente' : 'Ligar Manualmente';
+            alert(data.message);
+        });
+    }
+
+    async function buscarDados() {
+        const resp = await fetch('/api/ultimo-log');
+        const dados = await resp.json();
+
+        document.getElementById('dados').innerHTML = `
+            <p>🌡️ Temperatura: ${dados.temperature} °C</p>
+            <p>💧 Umidade do Solo: ${dados.humidity} %</p>
+            <p>💨 Umidade do Ar: ${dados.air_humidity} %</p>
+            <p>☔ Status Chuva: ${dados.rain_status}</p>
+            <p>🚰 Vazão: ${dados.flow_rate} L/s</p>
+            <p>🔢 Pulsos: ${dados.pulses}</p>
+            <p>🚿 Irrigando: ${dados.is_irrigating ? 'Sim' : 'Não'}</p>
+        `;
+
+        // Atualiza gráfico
+        adicionarDados(grafico, dados.created_at, dados.humidity);
+    }
+
+    // Configura o gráfico
+    const ctx = document.getElementById('meuGrafico').getContext('2d');
+    const grafico = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Umidade do Solo (%)',
+                data: [],
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.2
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    ticks: { autoSkip: true, maxTicksLimit: 10 }
+                }
+            }
+        }
+    });
+
+    function adicionarDados(chart, label, dado) {
+        if (chart.data.labels.length > 20) {
+            chart.data.labels.shift();
+            chart.data.datasets[0].data.shift();
+        }
+        chart.data.labels.push(label);
+        chart.data.datasets[0].data.push(dado);
+        chart.update();
+    }
+
+    setInterval(buscarDados, 2000); // Atualiza a cada 2 segundos
+</script>
 {% endblock %}
 
 {% block content %}
     <div class="card-padrao">
         <div class="titulo">
-            <p>Dados em tempo Real Sensores</p>
+            <p>Dados em Tempo Real dos Sensores</p>
         </div>
+
+        <div id="dados" style="padding: 20px; font-size: 18px;">
+            🔄 Carregando dados...
+        </div>
+
+        <div style="text-align: center; margin-bottom: 20px;">
+            <button id="btnManual" onclick="toggleManual()" style="padding: 10px 20px; background-color: #00b894; color: white; border: none; border-radius: 8px; cursor: pointer;">
+                Ligar Manualmente
+            </button>
+        </div>
+
         <div style="width: 90%; margin: auto;">
             <canvas id="meuGrafico"></canvas>
         </div>
     </div>
-    
 {% endblock %}

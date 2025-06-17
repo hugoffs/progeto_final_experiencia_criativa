@@ -1,14 +1,29 @@
+#log_service.py
+
 import uuid
 from models import db, Log
 
 def list_logs():
     return Log.query.all()
 
-def create_log(humidity: float, temperature: float, ldev_id: str, is_irrigating: bool = False) -> Log:
+def create_log(
+    humidity: float,
+    temperature: float,
+    air_humidity: float,
+    rain_status: str,
+    flow_rate: float,
+    pulses: int,
+    ldev_id: str,
+    is_irrigating: bool = False
+) -> Log:
     log = Log(
         id=str(uuid.uuid4()),
         humidity=humidity,
         temperature=temperature,
+        air_humidity=air_humidity,
+        rain_status=rain_status,
+        flow_rate=flow_rate,
+        pulses=pulses,
         is_irrigating=is_irrigating,
         ldev_id=ldev_id
     )

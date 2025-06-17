@@ -8,6 +8,5 @@ from models.routine_model import Routine
 from models.team_model import Team
 from models.user_activity_log_model import UserActivityLog
 from models.user_model import User
-
-
-
+from flask import Blueprint, jsonify
+from models import Log

@@ -1,12 +1,15 @@
 import os
-
 from dotenv import load_dotenv
+
 from flasgger import Swagger
 from flask import Flask, render_template, redirect, url_for
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from jwt import ExpiredSignatureError
 
+from flask_socketio import SocketIO  # 🔥 Adiciona o SocketIO
+
+# Blueprints dos controllers
 from controllers.authentication_controller import authentication_
 from controllers.error_controller import error_
 from controllers.ldev_controller import ldev_
@@ -15,14 +18,38 @@ from controllers.log_controller import log_
 from controllers.routine_controller import routine_
 from controllers.team_controller import team_
 from controllers.user_controller import user_
-from services.team_service import list_teams # Importar o serviço para listar times
-from models.db import db, instance
+from controllers.api_controller import api_
+from controllers.mqtt_controller import mqtt_
 
+# Models e serviços
+from models.db import db, instance
+from services.team_service import list_teams
+
+
+# 🔧 Carrega variáveis de ambiente
 load_dotenv()
+
 
 def create_app():
     app = Flask(__name__, template_folder="./views", static_folder="./static", root_path="./")
 
+    # 🔗 Configurações principais
+    app.config['TESTING'] = False
+    app.config['SECRET_KEY'] = 'generated-secrete-key'
+    app.config['SQLALCHEMY_DATABASE_URI'] = instance
+
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+    app.config['JWT_TOKEN_LOCATION'] = ["cookies"]
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+
+    # 🔥 Instancia banco e JWT
+    db.init_app(app)
+    jwt = JWTManager(app)
+
+    # 🔥 Instancia SocketIO
+    socketio = SocketIO(app, cors_allowed_origins="*")
+
+    # 🔗 Registro dos blueprints
     app.register_blueprint(authentication_, url_prefix='/api/authentication')
     app.register_blueprint(error_, url_prefix='/api/error')
     app.register_blueprint(ldev_, url_prefix='/api/ldev')
@@ -31,49 +58,37 @@ def create_app():
     app.register_blueprint(routine_, url_prefix='/api/routine')
     app.register_blueprint(team_, url_prefix='/api/team')
     app.register_blueprint(user_, url_prefix='/api/user')
+    app.register_blueprint(api_, url_prefix='/api/api')
+    app.register_blueprint(mqtt_, url_prefix='/api/mqtt')
 
-    app.config['TESTING'] = False
-    app.config['SECRET_KEY'] = 'generated-secrete-key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = instance
-
-    # chave secreta para assinar os tokens (guarde em .env)
-    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
-    # config.py
-    app.config['JWT_TOKEN_LOCATION'] = ["cookies"]
-    app.config['JWT_COOKIE_CSRF_PROTECT'] = False  # ou True, se você lidar com CSRF
-
-    db.init_app(app)
-    JWTManager(app)
-
+    # 🔥 Configuração Swagger
     template = {
         "swagger": "2.0",
         "info": {
-            "title":       "LDev API",
-            "description": "A RESTful API for IoT-based irrigation management. Provides JWT-secured endpoints to manage teams and users, define locations and devices, schedule and run irrigation routines, collect sensor data logs, report device errors, and track user activities.",
-            "version":     "Indev 0.1.0"
+            "title": "LDev API",
+            "description": "API para gerenciamento de irrigação IoT com JWT e Swagger.",
+            "version": "Indev 0.1.0"
         },
         "securityDefinitions": {
             "Bearer": {
                 "type": "apiKey",
                 "name": "Authorization",
                 "in": "header",
-                "description": "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'"
+                "description": "JWT Authorization header usando Bearer. Ex: 'Bearer {token}'"
             }
         },
-        "security": [
-            {
-                "Bearer": []
-            }
-        ]
+        "security": [{"Bearer": []}]
     }
     Swagger(app, template=template)
 
+    # 🔐 Tratamento de erros de autenticação
     @app.errorhandler(NoAuthorizationError)
     @app.errorhandler(ExpiredSignatureError)
     def handle_jwt_error(e):
         return redirect(url_for('login_page'))
 
-    # -------------------------- Rota de teste do HTML --------------------------
+    # --------------------- 🔗 Rotas de navegação ---------------------
+
     @app.route('/login', methods=['GET'])
     def login_page():
         return render_template('login.html')
@@ -86,6 +101,6 @@ def create_app():
             return {'error': 'Acesso negado'}, 403
 
         current_teams = list_teams()
-        return render_template('team.html',  teams=current_teams)
+        return render_template('team.html', teams=current_teams)
 
-    return app
+    return app, socketio
