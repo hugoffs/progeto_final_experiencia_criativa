@@ -1,7 +1,8 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template,redirect
 from flask_jwt_extended import jwt_required, get_jwt
 
 from services.ldev_service import create_ldev, list_ldevs, delete_ldev, get_ldev, update_ldev
+from services.locale_service import list_locales
 
 ldev_ = Blueprint('ldev', __name__, template_folder="./views", static_folder="./static", root_path="./")
 
@@ -205,3 +206,58 @@ def delete_route(ldev_id):
     ldev = get_ldev(ldev_id)
     delete_ldev(ldev)
     return '', 204
+
+#----------- WEB ---------------------------
+@ldev_.route("/list_devices")
+def list_devices():
+    all_ldevs = list_ldevs()
+    return render_template("devices.html", ldevs=all_ldevs)
+
+@ldev_.route("/registre_device")
+def registre_device():
+    locales = list_locales()
+    return render_template("registre_device.html", locales=locales)
+
+@ldev_.route("/add_ldev", methods=['POST'])
+def add_device():
+    # Para dados enviados via formulário, use request.form
+    name = request.form.get('name')
+    latitude = request.form.get('latitude')
+    longitude = request.form.get('longitude')
+    locale_id = request.form.get('locale_id')
+
+    if not locale_id:
+        return {"error": "locale_id é obrigatório."}, 400
+
+    try:
+        device = create_ldev(name=name, latitude=latitude, longitude=longitude, locale_id=locale_id)
+    except ValueError as e:
+        return {"error": str(e)}, 400
+
+    # Redirecionar para a página que lista os dispositivos
+    return redirect("/api/ldev/list_devices")
+
+@ldev_.route("/edit_device")
+def edit_device():
+  id = request.args.get("id")
+  ldev = get_ldev(id)
+  locales = list_locales()
+  return render_template("update_device.html", ldevs=ldev, locales=locales)
+
+@ldev_.route("/update_device", methods=['POST'])
+def update_device():
+    id = request.form.get("id")
+    name = request.form.get('name')
+    logi = request.form.get('longitude')
+    lati = request.form.get('latitude')
+    locale_id = request.form.get('locale_id')
+    ldev = get_ldev(id)
+    ldev = update_ldev(ldev=ldev, name=name, longitude=logi, latitude=lati, locale_id=locale_id)
+    return redirect("/api/ldev/list_devices")
+
+@ldev_.route("/del_device")
+def del_ldev():
+    id = request.args.get("id")
+    ldev = get_ldev(id)
+    delete_ldev(ldev)
+    return redirect("/api/ldev/list_devices")
