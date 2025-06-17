@@ -1,0 +1,53 @@
+
+{% extends "base.html" %}
+
+{% block title %} Dispositivo {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/team.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card-padrao">
+    <div class="titulo">
+        <p>Dispositivo </p>
+    </div>
+
+    <div class="list-team">
+        {% if ldevs %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th colspan="2">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ldev in ldevs %}
+                        <tr>
+                            <td>{{ ldev.name }}</td>
+                            <td>
+                                <a href="/api/ldev/edit_device?id={{ldev.id}}">Editar</a>
+                            </td>
+                            <td>
+                                <a href="/api/ldev/del_device?id={{ldev.id}}" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhum Dispositivo conectado  cadastrado.</p>
+        {% endif %}
+    </div>
+
+    <div class="card-lower">
+        <div class="botoes">
+            <a href="/api/ldev/registre_device">
+                <button>Cadastrar Novo dispositivo </button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

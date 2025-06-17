@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %} Home.html  {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card-padrao">
+    <div class="titulo">
+        <p>Descrição do aplicativo </p>
+    </div>
+    <div class="descricao">
+        <p>Esse aplicativo tem a Inteção de fazer um sistema de Irigação altomatica, onde o ususario podera definar times, e rotinas para os sensores</p>
+        <p> Navegação: </p>
+        <p> A nevação do Aplicativo sera dado pela parte superior da pagina onde o usuario poderá escolher a opição degejada para navegar</p>
+        <p>Ação: </p>
+        <p> Nessa parte da navegação é responsavel pelo todos os cadatras que nosso aplicativo pode fazer </p>
+        <p>Tempo Real: </p>
+        <p>Demostração dos dados vindo pelo sensores e ativação da irrigação </p>
+        
+    </div>
+</div>
+{% endblock %}

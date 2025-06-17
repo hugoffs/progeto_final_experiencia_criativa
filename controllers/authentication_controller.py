@@ -29,51 +29,51 @@ def protected_page_example():
 @authentication_.route('/login', methods=['POST'])
 def login():
     """
-     User login endpoint: validates credentials and sets a JWT in an HttpOnly cookie
-     ---
-     tags:
-       - authentication
-     consumes:
-       - application/json
-     parameters:
-       - in: body
-         name: credentials
-         description: User email and password
-         required: true
-         schema:
-           type: object
-           required:
-             - email
-             - password
-           properties:
-             email:
-               type: string
-               format: email
-               example: user@example.com
-             password:
-               type: string
-               format: password
-               example: yourpassword
-     responses:
-       200:
-         description: Login successful; JWT is set in an HttpOnly cookie
-         headers:
-           Set-Cookie:
-             description: |
-               HTTP-only cookie named “access_token_cookie” containing the JWT.
-               Cookie is marked Secure and SameSite=Lax.
-         schema:
-           type: object
-           properties:
-             login:
-               type: boolean
-               example: true
-       400:
-         description: Missing email or password
-       401:
-         description: Invalid credentials
-     security: []
-     """
+      User login endpoint: validates credentials and sets a JWT in an HttpOnly cookie
+      ---
+      tags:
+        - authentication
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: credentials
+          description: User email and password
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+                format: email
+                example: user@example.com
+              password:
+                type: string
+                format: password
+                example: yourpassword
+      responses:
+        200:
+          description: Login successful; JWT is set in an HttpOnly cookie
+          headers:
+            Set-Cookie:
+              description: |
+                HTTP-only cookie named “access_token_cookie” containing the JWT.
+                Cookie is marked Secure and SameSite=Lax.
+          schema:
+            type: object
+            properties:
+              login:
+                type: boolean
+                example: true
+        400:
+          description: Missing email or password
+        401:
+          description: Invalid credentials
+      security: []
+      """
 
     data = request.get_json() or {}
     email    = data.get('email')
@@ -92,3 +92,7 @@ def login():
     resp = jsonify({"login": True})
     set_access_cookies(resp, access_token)
     return resp, 200
+
+@authentication_.route('/home')
+def home ():
+    return render_template("home.html")

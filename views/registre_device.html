@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Novo Dispositivo {% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/registrar_usuario.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="card-padrao">
+    <div class="titulo">
+        <p>Novo Dispositivo</p>
+    </div>
+
+    <form action="http://localhost:8080/api/ldev/add_ldev" method="post">
+        <div class="formulario">
+            <div class="form-left">
+                <p>Código do Dispositivo</p>
+                <select name="locale_id" required>
+                    {% for locale in locales %}
+                    <option value="{{ locale.id }}">{{ locale.name }}</option>
+                    {% endfor %}
+                </select>
+                <p>Latitude</p>
+                <input type="number" name="latitude" placeholder="Ex: -25.4284" step="any" required>
+            </div>
+
+            <div class="form-right">
+                <p>Nome do Dispositivo</p>
+                <input type="text" name="name" placeholder="Ex: Esp32" required>
+
+                <p>Longitude</p>
+                <input type="number" name="longitude" placeholder="Ex: -49.2733" step="any" required>
+            </div>
+
+        </div>
+
+        <div class="botoes">
+            <button type="submit">Registrar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
