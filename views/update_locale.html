@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Time{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register_team.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="card-padrao">
+    <div class="titulo">
+        <p>Editar Local</p>
+    </div>
+    <div class="formulario">
+        <form action="http://localhost:8080/api/locale/update_locale" method="post">
+            <input type="hidden" name="_method" value="PATCH">
+            
+            <input type="hidden" name="id" value="{{ locale.id }}">
+            <div class="text-form">
+                <p>Nome do locales</p>
+                <input type="text" name="name" value="{{ locale.name }}" required placeholder="Nome do Time">
+                <p>Observação</p>
+                <input type="text" name="note" value="{{ locale.note }}" required placeholder="Observação">
+                <p>Time</p>
+                <select name="team_id" required>
+                    {% for time in teams %}
+                    <option value="{{ time.id }}" {% if time.id == locale.team.id %}
+                        selected
+                    {% endif %}>{{ time.name  }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="butao">
+                <button type="submit">Salvar Alterações</button>
+            </div>
+        </form>
+
+        <div class="butao">
+            <a href="/api/locale/list_locale">
+                <button type="button">Voltar</button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

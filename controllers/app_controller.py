@@ -71,7 +71,7 @@ def create_app():
     @app.errorhandler(NoAuthorizationError)
     @app.errorhandler(ExpiredSignatureError)
     def handle_jwt_error(e):
-        return redirect(url_for('app.login_page'))
+        return redirect(url_for('login_page'))
 
     # -------------------------- Rota de teste do HTML --------------------------
     @app.route('/login', methods=['GET'])

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template, redirect, session
 from flask_jwt_extended import jwt_required, get_jwt
 
 from services.routine_service import update_routine, get_routine, delete_routine, list_routines, create_routine
@@ -390,6 +390,70 @@ def list_routines_route():
     routines = list_routines()
     return render_template("routine.html", routines=routines)
 
-@routine_.route('/register_routine')
+@routine_.route('/register_routine', methods=['GET', 'POST'])
 def register_routine():
+    if request.method == 'POST':
+        # Pega dados do formulário básico
+        session['begin_time'] = request.form.get('begin_time')
+        session['end_time'] = request.form.get('end_time')
+        session['liters_of_water'] = request.form.get('liters_of_water')
+        session['ativa'] = request.form.get('ativa')
+        session['locale_id'] = request.form.get('locale_id')  # opcional se existir
+
+        # Redireciona para a página de opções avançadas
+        return redirect('/api/routine/opicoes_avancadas')
+
     return render_template('register_routine.html')
+
+@routine_.route("/add_routine", methods=["POST"])
+def add_routine():
+    begin_time = request.form.get("begin_time")
+    end_time = request.form.get("end_time")
+    liters_of_water = request.form.get("liters_of_water")
+    locale_id = request.form.get("locale_id")
+
+    create_routine(
+        begin_time=begin_time,
+        end_time=end_time,
+        liters_of_water=liters_of_water,
+        locale_id=locale_id
+    )
+
+    return redirect("/api/routine/list_routines")
+
+@routine_.route('/opicoes_avancadas', methods=['GET', 'POST'])
+def opicoes_avancadas():
+    if request.method == 'POST':
+        # Dados do segundo formulário
+        umidade_min = request.form.get('umidade_min')
+        umidade_max = request.form.get('umidade_max')
+        temperatura_min = request.form.get('temperatura_min')
+        temperatura_max = request.form.get('temperatura_max')
+
+        # Dados do primeiro formulário que estão na session
+        begin_time = session.get('begin_time')
+        end_time = session.get('end_time')
+        liters_of_water = session.get('liters_of_water')
+        ativa = session.get('ativa')
+        locale_id = session.get('locale_id')
+
+        # Aqui você faz a criação da rotina completa
+        create_routine(
+            temperature=temperatura_max,  # ou outro critério
+            humidity=umidade_max,         # ou outro critério
+            begin_time=begin_time,
+            end_time=end_time,
+            liters_of_water=liters_of_water,
+            locale_id=locale_id
+        )
+
+        # Limpa a session depois de usar
+        session.pop('begin_time', None)
+        session.pop('end_time', None)
+        session.pop('liters_of_water', None)
+        session.pop('ativa', None)
+        session.pop('locale_id', None)
+
+        return redirect("/api/routine/list_routines")
+
+    return render_template('opicoes_avancadas.html')

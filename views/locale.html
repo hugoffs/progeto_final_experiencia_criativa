@@ -10,41 +10,45 @@
 {% block content %}
 <div class="card-padrao">
     <div class="titulo">
-        <p>Times</p>
+        <p>Locais</p>
     </div>
 
     <div class="list-team">
-        {% if teams %}
+        {% if locales %}
             <table>
                 <thead>
                     <tr>
                         <th>Nome</th>
+                        <th>Time</th>
+                        <th>Descrição</th>
                         <th colspan="2">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for team in teams %}
+                    {% for locale in locales %}
                         <tr>
-                            <td>{{ team.name }}</td>
+                            <td>{{ locale.name }}</td>
+                            <td>{{ locale.team.name }}</td>
+                            <td>{{ locale.note }}</td>
                             <td>
-                                <a href="/api/team/edit_team?id={{team.id}}">Editar</a>
+                                <a href="/api/locale/edit_locale?id={{locale.id}}">Editar</a>
                             </td>
                             <td>
-                                <a href="/api/team/del_team?id={{team.id}}" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                                <a href="/api/locale/del_loacle?id={{locale.id}}" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         {% else %}
-            <p>Nenhum time cadastrado.</p>
+            <p>Nenhum local cadastrado.</p>
         {% endif %}
     </div>
 
     <div class="card-lower">
         <div class="botoes">
-            <a href="/api/team/register_team">
-                <button>Cadastrar Time</button>
+            <a href="/api/locale/register_locale">
+                <button>Cadastrar local</button>
             </a>
         </div>
     </div>

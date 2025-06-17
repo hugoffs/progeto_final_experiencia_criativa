@@ -3,6 +3,7 @@ from werkzeug.exceptions import BadRequest
 from flask_jwt_extended import jwt_required, get_jwt
 
 from services.user_service import list_users, create_user, get_user, update_user, delete_user
+from services.team_service import list_teams
 
 user_ = Blueprint('user', __name__, template_folder="./views", static_folder="./static", root_path="./")
 
@@ -366,7 +367,8 @@ def register_user():
   if claims.get('role') != 'admin':
     return {'error': 'Acesso negado'}, 403
   
-  return render_template('registrar_usuario.html')
+  team = list_teams()
+  return render_template('registrar_usuario.html', teams = team)
 
 
 @user_.route("/add_user", methods=["POST"])

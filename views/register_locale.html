@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar novo Time {% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register_team.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="card-padrao">
+        <div class="titulo">
+            <p>Registrar Novo Local </p>
+        </div>
+        <div class="formulario">
+            <form action="http://localhost:8080/api/locale/add_locale" method="post">
+                    <div class="text-form">
+                        <p>Nome do Local</p>
+                        <input type="text" name="name" placeholder="Nome do Time">
+                        <p>Obeservação</p>
+                        <input type="text" name="note" placeholder="Observação">
+
+                        <p>Time</p>
+                        <select name="team_id">
+                            {% for time in teams %}
+                            <option value="{{ time.id }}">{{ time.name  }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                        
+                <div class="butao">
+                    <button type="submit">Registrar</button>
+                </div>
+            </form>
+        </div>
+    </div> 
+{% endblock %}

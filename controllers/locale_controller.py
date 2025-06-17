@@ -1,7 +1,8 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify,render_template, redirect
 from flask_jwt_extended import jwt_required, get_jwt
 
 from services.locale_service import delete_locale, get_locale, update_locale, create_locale, list_locales
+from services.team_service import list_teams
 
 locale_ = Blueprint('locale', __name__, template_folder="./views", static_folder="./static", root_path="./")
 
@@ -297,3 +298,50 @@ def delete_route(locale_id):
     loc = get_locale(locale_id)
     delete_locale(loc)
     return '', 204
+
+#------------ WEB -------------------------
+@locale_.route("/list_locale")
+def list_locales_route():
+    locales = list_locales()
+    return render_template("locale.html", locales= locales)
+
+@locale_.route('/register_locale')
+def register_locale():
+    teams = list_teams()
+    return render_template('register_locale.html', teams= teams)
+
+@locale_.route('/add_locale', methods=['POST'])
+def add_locale():
+    name = request.form.get('name')
+    team_id = request.form.get('team_id')
+    note = request.form.get('note')
+    if not name:
+      return "Nome do time é obrigatório", 400 
+    
+    create_locale(name=name, team_id=team_id, note=note)
+    return redirect("/api/locale/lista_locais")
+
+@locale_.route("/edit_locale")
+def edit_locale():
+    id = request.args.get("id")
+    locale = get_locale(id)
+    teams = list_teams()
+    return render_template("update_locale.html", locale=locale, teams=teams)
+
+@locale_.route("/update_locale", methods=["POST"])
+def update_locale_route():
+    id = request.form.get("id")
+    name = request.form.get("name")
+    team_id = request.form.get("team_id")
+    note = request.form.get("note")
+
+    locale = get_locale(id)
+    update_locale(locale, name=name, team_id=team_id, note=note)
+    return redirect("/api/locale/lista_locais")
+
+@locale_.route("/del_loacle")
+def del_locale():
+    id = request.args.get("id")
+    locale = get_locale(id)
+    delete_locale(locale)
+    return redirect("/api/locale/lista_locais")

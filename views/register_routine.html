@@ -11,19 +11,19 @@
     <div class="titulo">
         <p>Nova Rotina</p>
     </div>
-    <form action="#" method="post">
+    <form action="http://localhost:8080/api/routine/add_routine" method="post">
         <div class="formulario">
             <div class="form-left">
                 <p>Horário de Início</p>
-                <input type="time" name="horario_inicio" required>
+                <input type="time" name="begin_time" required>
 
                 <p>Litros de Água</p>
-                <input type="number" name="litros_agua" placeholder="Litros de Água" step="0.1" min="0" required>
+                <input type="number" name="liters_of_water" placeholder="Litros de Água" step="0.1" min="0" required>
             </div>
 
             <div class="form-right">
                 <p>Horário de Fim</p>
-                <input type="time" name="horario_fim" required>
+                <input type="time" name="end_time" required>
 
                 <p>Definir rotina como ativa</p>
                 <select name="ativa" required>
@@ -38,7 +38,7 @@
                 <div class="espacamento"></div>
 
                 <div class="link">
-                    <a href="/opicoes_avancadas">Opções Avançadas</a>
+                    <a href="/api/routine/opicoes_avancadas">Opções Avançadas</a>
                 </div>
 
                 <button type="submit" class="btn-cadastrar">Cadastrar</button>

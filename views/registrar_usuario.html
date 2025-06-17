@@ -32,8 +32,8 @@
 
                 <p>Time</p>
                 <select name="time">
-                    {% for time in times %}
-                    <option value="{{ time.id }}">{{ time.nome }}</option>
+                    {% for time in teams %}
+                    <option value="{{ time.id }}">{{ time.name  }}</option>
                     {% endfor %}
                 </select>
             </div>
