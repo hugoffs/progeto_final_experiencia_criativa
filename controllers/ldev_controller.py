@@ -213,10 +213,10 @@ def list_devices():
     all_ldevs = list_ldevs()
     return render_template("devices.html", ldevs=all_ldevs)
 
-@ldev_.route("/registre_device")
+@ldev_.route("/register_device")
 def registre_device():
     locales = list_locales()
-    return render_template("registre_device.html", locales=locales)
+    return render_template("register_device.html", locales=locales)
 
 @ldev_.route("/add_ldev", methods=['POST'])
 def add_device():
