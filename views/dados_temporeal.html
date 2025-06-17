@@ -13,19 +13,19 @@
         <p>Dados em Tempo Real dos Sensores</p>
     </div>
 
-    <div id="dados" style="padding: 20px; font-size: 18px;">
+    <div id="dados">
         🔄 Carregando dados...
     </div>
 
-    <div style="text-align: center; margin-bottom: 20px;">
-        <button id="btnManual" onclick="toggleManual()" style="padding: 10px 20px; background-color: #00b894; color: white; border: none; border-radius: 8px; cursor: pointer;">
+    <div class="botao">
+        <button id="btnManual" onclick="toggleManual()">
             Ligar Manualmente
         </button>
     </div>
 </div>
 
 <script>
-    let manualStatus = false; // false = desligado, true = ligado
+    let manualStatus = false;
 
     function toggleManual() {
         manualStatus = !manualStatus;
@@ -44,24 +44,28 @@
     }
 
     async function buscarDados() {
-        const resp = await fetch('/api/ultimo-log'); // Verifique se sua rota está correta
+        const resp = await fetch('/api/ultimo-log');
         const dados = await resp.json();
 
         if (dados.error) {
             document.getElementById('dados').innerHTML = `<p>❌ ${dados.error}</p>`;
         } else {
             document.getElementById('dados').innerHTML = `
-                <p>🌡️ <b>Temperatura:</b> ${dados.temperature} °C</p>
-                <p>💧 <b>Umidade do Solo:</b> ${dados.humidity} %</p>
-                <p>💨 <b>Umidade do Ar:</b> ${dados.air_humidity} %</p>
-                <p>☔ <b>Status Chuva:</b> ${dados.rain_status}</p>
-                <p>🚰 <b>Vazão:</b> ${dados.flow_rate} L/s</p>
-                <p>🔢 <b>Pulsos:</b> ${dados.pulses}</p>
-                <p>🚿 <b>Irrigando:</b> ${dados.is_irrigating ? 'Sim' : 'Não'}</p>
+                <div class="card-left">
+                    <p>🌡️ <b>Temperatura:</b> ${dados.temperature} °C</p>
+                    <p>💧 <b>Umidade do Solo:</b> ${dados.humidity} %</p>
+                    <p>💨 <b>Umidade do Ar:</b> ${dados.air_humidity} %</p>
+                    <p>☔ <b>Status Chuva:</b> ${dados.rain_status}</p>
+                </div>
+                <div class="card-right">
+                    <p>🚰 <b>Vazão:</b> ${dados.flow_rate} L/s</p>
+                    <p>🔢 <b>Pulsos:</b> ${dados.pulses}</p>
+                    <p>🚿 <b>Irrigando:</b> ${dados.is_irrigating ? 'Sim' : 'Não'}</p>
+                </div>
             `;
         }
     }
 
-    setInterval(buscarDados, 2000); // Atualiza a cada 2 segundos
+    setInterval(buscarDados, 2000);
 </script>
 {% endblock %}
