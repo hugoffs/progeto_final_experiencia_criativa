@@ -391,20 +391,11 @@ def list_routines_route():
     routines = list_routines()
     return render_template("routine.html", routines=routines)
 
-@routine_.route('/register_routine', methods=['GET', 'POST'])
+@routine_.route('/register_routine')
 def register_routine():
-    if request.method == 'POST':
-        # Pega dados do formulário básico
-        session['begin_time'] = request.form.get('begin_time')
-        session['end_time'] = request.form.get('end_time')
-        session['liters_of_water'] = request.form.get('liters_of_water')
-        session['ativa'] = request.form.get('ativa')
-        session['locale_id'] = request.form.get('locale_id')  # opcional se existir
-
-        # Redireciona para a página de opções avançadas
-        return redirect('/api/routine/opicoes_avancadas')
     locales = list_locales()
-    return render_template('register_routine.html', locales= locales)
+    return render_template('register_routine.html', locales=locales)
+
 
 @routine_.route("/add_routine", methods=["POST"])
 def add_routine():
@@ -413,99 +404,35 @@ def add_routine():
     liters_of_water = request.form.get("liters_of_water")
     locale_id = request.form.get("locale_id")
 
-    create_routine(
-        begin_time=begin_time,
-        end_time=end_time,
-        liters_of_water=liters_of_water,
-        locale_id=locale_id
-    )
-
+    create_routine(begin_time=begin_time, end_time=end_time, liters_of_water=liters_of_water, locale_id=locale_id )
     return redirect("/api/routine/list_routines")
 
-@routine_.route('/opicoes_avancadas', methods=['GET', 'POST'])
-def opicoes_avancadas():
-    if request.method == 'POST':
-        # Dados do segundo formulário
-        umidade_min = request.form.get('umidade_min')
-        umidade_max = request.form.get('umidade_max')
-        temperatura_min = request.form.get('temperatura_min')
-        temperatura_max = request.form.get('temperatura_max')
-
-        # Dados do primeiro formulário que estão na session
-        begin_time = session.get('begin_time')
-        end_time = session.get('end_time')
-        liters_of_water = session.get('liters_of_water')
-        ativa = session.get('ativa')
-        locale_id = session.get('locale_id')
-
-        # Aqui você faz a criação da rotina completa
-        create_routine(
-            temperature=temperatura_max,  # ou outro critério
-            humidity=umidade_max,         # ou outro critério
-            begin_time=begin_time,
-            end_time=end_time,
-            liters_of_water=liters_of_water,
-            locale_id=locale_id
-        )
-
-        # Limpa a session depois de usar
-        session.pop('begin_time', None)
-        session.pop('end_time', None)
-        session.pop('liters_of_water', None)
-        session.pop('ativa', None)
-        session.pop('locale_id', None)
-
-        return redirect("/api/routine/list_routines")
-
-    return render_template('opicoes_avancadas.html')
-
-@routine_.route("/edt_routine")
+@routine_.route("/edit_routine")
 def edit_routine():
     id = request.args.get("id")
-    routines = get_routine(id)  # <-- Aqui você traz UM objeto, não uma lista
+    routines = get_routine(id)
     locales = list_locales()
     return render_template("update_routine.html", routines=[routines], locales=locales)
 
-
 @routine_.route("/update_routine", methods=["POST"])
-def update_routine_route():
+def update_routines():
     id = request.form.get("id")
     begin_time = request.form.get("begin_time")
     end_time = request.form.get("end_time")
     liters_of_water = request.form.get("liters_of_water")
-    ativa = request.form.get("ativa")
     locale_id = request.form.get("locale_id")
 
     routine = get_routine(id)
 
-    update_routine(
-        routine,
-        begin_time=begin_time,
-        end_time=end_time,
-        liters_of_water=liters_of_water,
-        ativa=ativa,
-        locale_id=locale_id
-    )
+    update_routine(routine, begin_time=begin_time, end_time=end_time, liters_of_water=liters_of_water, locale_id=locale_id)
 
     return redirect("/api/routine/list_routines")
 
-
-@routine_.route("/update_routine_avancadas", methods=["POST"])
-def update_routine_avanc():
-    id = request.form.get("id")
-    umidade_min = request.form.get("umidade_min")
-    umidade_max = request.form.get("umidade_max")
-    temperatura_min = request.form.get("temperatura_min")
-    temperatura_max = request.form.get("temperatura_max")
-
+@routine_.route("/del_routine")
+def del_routine():
+    id = request.args.get("id")
     routine = get_routine(id)
-
-    update_routine(
-        routine,
-        humidity_min=umidade_min,
-        humidity_max=umidade_max,
-        temperature_min=temperatura_min,
-        temperature_max=temperatura_max
-    )
-
+    delete_routine(routine)
     return redirect("/api/routine/list_routines")
+
+

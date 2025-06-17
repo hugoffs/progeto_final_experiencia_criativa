@@ -3,7 +3,7 @@
 {% block title %}Registrar Usuário{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/registrar_usuario.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/update_routine.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -11,36 +11,45 @@
     <div class="titulo">
         <p>Cadastrar novo Usuário</p>
     </div>
-    {% for user in users %}
-        <form action="#" method="post">
+    {% for routine in routines %}
+        <form action="http://localhost:8080/api/routine/update_routine" method="post">
+            <input type="hidden" name="id" value="{{ routine.id }}">
+
             <div class="formulario">
                 <div class="form-left">
-                    <p>Nome</p>
-                    <input type="text" name="nome" placeholder="Nome Completo" value="{{ user.nome }}" required>
+                    <p>Horário de Início</p>
+                    <input type="time" name="begin_time" value="{{ routine.begin_time.strftime('%H:%M') if routine.begin_time else '' }}" required>
 
-                    <p>Senha</p>
-                    <input type="password" name="password" placeholder="Senha" required>
+                    <p>Litros de Água</p>
+                    <input type="number" name="liters_of_water" placeholder="Litros de Água"  step="0.1" min="0" value="{{ routine.liters_of_water }}" required>
 
-                    <p>Nível de Permissão</p>
-                    <select name="nivel_permissao" value="{{ user.nivel_permissao }}"">
-                        <option value="admin">Administrador</option>
-                        <option value="user">Usuário</option>
-                    </select>
-                </div>
-                <div class="form-right">
-                    <p>Email</p>
-                    <input type="email" name="email" placeholder="E-mail" value="{{ user.email }}" required>
-
-                    <p>Time</p>
-                    <select name="time" value="{{ user.team_id }}"">
-                        {% for time in times %}
-                        <option value="{{ time.id }}">{{ time.nome }}</option>
+                    <p>Local</p>
+                    <select name="locale_id" required>
+                        {% for locale in locales %}
+                        <option value="{{ locale.id }}" 
+                                {% if locale.id == routine.locale_id %}selected{% endif %}>
+                            {{ locale.name }}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
+
+                <div class="form-right">
+                    <p>Horário de Fim</p>
+                    <input type="time" name="end_time"  value="{{ routine.end_time.strftime('%H:%M') if routine.end_time else '' }}" required>
+
+                    <p>Definir rotina como ativa</p>
+                    <select name="ativa" required>
+                        <option value="true" {% if routine.ativa %}selected{% endif %}>Sim</option>
+                        <option value="false" {% if not routine.ativa %}selected{% endif %}>Não</option>
+                    </select>
+                </div>
             </div>
-            <div class="botoes">
-                <button type="submit" class="btn-cadastrar">Cadastrar</button>
+
+            <div class="lower-card">
+                <div class="botoes">
+                    <button type="submit" class="btn-cadastrar">Atualizar</button>
+                </div>
             </div>
         </form>
     {% endfor %}

@@ -13,18 +13,28 @@
     </div>
     {% for routine in routines %}
         <form action="http://localhost:8080/api/routine/update_routine" method="post">
+            <input type="hidden" name="id" value="{{ routine.id }}">
             <div class="formulario">
                 <div class="form-left">
                     <p>Horário de Início</p>
-                    <input type="time" name="horario_inicio" value="{{ routine.horario_inicio }}" required>
+                    <input type="time" name="begin_time" value="{{ routine.begin_time }}" required>
 
                     <p>Litros de Água</p>
-                    <input type="number" name="litros_agua" placeholder="Litros de Água" step="0.1" min="0" value="{{ routine.litros_agua }}" required>
+                    <input type="number" name="liters_of_water" placeholder="Litros de Água" step="0.1" min="0" value="{{ routine.liters_of_water }}" required>
+                    <p>Local</p>
+                    <select name="locale_id" required>
+                        {% for locale in locales %}
+                        <option value="{{ locale.id }}" {% if locale.id == routine.locale_id %}selected{% endif %}>
+
+                            {{ locale.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <div class="form-right">
                     <p>Horário de Fim</p>
-                    <input type="time" name="horario_fim" valeu="{{ routine.horario_fim }}" required>
+                    <input type="time" name="end_time" value="{{ routine.end_time }}" required>
 
                     <p>Definir routine como ativa</p>
                     <select name="ativa" value="{{ routine.ativa }}"" required>
@@ -36,12 +46,6 @@
 
             <div class="lower-card">
                 <div class="botoes">
-                    <div class="espacamento"></div>
-
-                    <div class="link">
-                        <a href="/api/routine/update_routine_avancadas/{{ routine.id }}" >Opções Avançadas</a>
-                    </div>
-
                     <button type="submit" class="btn-cadastrar">Cadastrar</button>
                 </div>
             </div>

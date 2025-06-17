@@ -258,6 +258,9 @@ def update_device():
 @ldev_.route("/del_device")
 def del_ldev():
     id = request.args.get("id")
+    if not id:
+        return "ID não fornecido", 400
+
     ldev = get_ldev(id)
     delete_ldev(ldev)
     return redirect("/api/ldev/list_devices")

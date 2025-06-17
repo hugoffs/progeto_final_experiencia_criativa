@@ -26,15 +26,15 @@
                         {% endfor %}
                     </select>
                     <p>Latitude</p>
-                    <input type="number" name="latitude" placeholder="Ex: -25.4284" step="any" required>
+                    <input type="number" name="latitude" placeholder="Ex: -25.4284" step="any" value="{{ ldevs.latitude }}" required>
                 </div>
 
                 <div class="form-right">
                     <p>Nome do Dispositivo</p>
-                    <input type="text" name="name" placeholder="Ex: Esp32" required>
+                    <input type="text" name="name" placeholder="Ex: Esp32" value="{{ ldevs.name }}" required>
 
                     <p>Longitude</p>
-                    <input type="number" name="longitude" placeholder="Ex: -49.2733" step="any" required>
+                    <input type="number" name="longitude" placeholder="Ex: -49.2733" step="any" value="{{ ldevs.longitude }}" required>
                 </div>
 
             </div>

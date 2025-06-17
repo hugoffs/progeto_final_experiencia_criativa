@@ -278,7 +278,7 @@ def add_team():
         return "Nome do time é obrigatório", 400
     create_team(name=name) # Corrigido para usar keyword argument
     # Redireciona para a página de listagem de times (rota index)
-    return redirect(url_for('index'))
+    return redirect("/api/team/list_teams")
 
 @team_.route("/list_teams")
 def tema():
@@ -287,7 +287,7 @@ def tema():
     return render_template("team.html", teams=teams, )
 
 @team_.route("/edit_team")
-def update_team():
+def edit_team():
     id = request.args.get("id")
     team = get_team(id)
     return render_template("update_team.html", team=team)
@@ -299,7 +299,7 @@ def update_teams():
     team = get_team(id)
     team = update_team(team, name=name)
     # Redireciona para a página de listagem de times
-    return redirect(url_for('index'))
+    return redirect("/api/team/list_teams")
 
 
 @team_.route("/del_team")

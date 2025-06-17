@@ -19,7 +19,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>id</th>
+                        <th>Local</th>
                         <th>Horário</th>
                         <th colspan="2">Ações</th>
                     </tr>
@@ -27,10 +27,10 @@
                 <tbody>
                     {% for routine in routines %}
                         <tr>
-                            <td>{{ routine.id }}</td>
+                            <td>{{ routine.locale.name }}</td>
                             <td>{{ routine.begin_time }} - {{ routine.end_time }}</td>
-                            <td><a href="/api/routine/edt_routine?id={{ routine.id }}">Editar</a></td>
-                            <td><a href="/api/routine/del_routine?id={{ routine.id }}">Excluir</a></td>
+                            <td><a href="/api/routine/edit_routine?id={{ routine.id }}">Editar</a></td>
+                            <td><a href="/api/routine/del_routine?id={{ routine.id }}" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

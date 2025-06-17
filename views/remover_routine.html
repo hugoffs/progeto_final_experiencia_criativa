@@ -1,0 +1,13 @@
+<html>
+    <body>
+        <form action="http://localhost:8080/api/routine/del_routine" method="post">
+            <select name="routine" class="input">
+            <input type="hidden" name="_method" value="PATCH"> 
+            <input type="hidden" name="id" value="{{ routine.id }}">
+                {% for key, value in routines.items() %}
+                    <option >{{key}}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </body>
+</html>

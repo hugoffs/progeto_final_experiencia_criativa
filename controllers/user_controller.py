@@ -382,21 +382,30 @@ def add_user():
     return redirect("/api/user/list_users")
 
 @user_.route("/edit_user")
-def edt_user():
+@jwt_required()
+def edit_user():
+    claims = get_jwt()
+    if claims.get('role') != 'admin':
+      return {'error': 'Acesso negado'}, 403
+    
     id = request.args.get("id")
     user = get_user(id)
-    return render_template("update_user.html", users=[user])
+    times = list_teams()
+    return render_template("update_user.html", user=user, times=times)
+
 
 @user_.route("/update_users", methods=["POST"])
 def update_users():
     id = request.form.get("id")
     name = request.form.get("name")
     email = request.form.get("email")
-    passowrd = request.form.get("password")
-    time = request.form.get("time")
+    password = request.form.get("password")
+    nivel_permissao = request.form.get("nivel_permissao")
     team_id = request.form.get("team_id")
+
     user = get_user(id)
-    user = update_user(user, name=name, email=email, password=passowrd, time=time, team_id=team_id)
+    update_user(user, name=name, email=email, password=password, nivel_permissao=nivel_permissao, team_id=team_id)
+
     return redirect("/api/user/list_users")
 
 @user_.route("/del_user")
@@ -405,8 +414,11 @@ def del_user():
   claims = get_jwt()
   if claims.get('role') != 'admin':
     return {'error': 'Acesso negado'}, 403
+  
   id = request.args.get("id")
   user = get_user(id)
+  delete_user(user)
+  return redirect("/api/user/list_users")
 
 
 

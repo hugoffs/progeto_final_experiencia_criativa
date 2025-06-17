@@ -1,8 +1,8 @@
 <!-- remove_device.html -->
 <html>
     <body>
-        <form action="http://localhost:8080/api/team/delete_device" method="post">
-            <select name="team" class="input">
+        <form action="http://localhost:8080/api/team/del_device" method="post">
+            <select name="ldev" class="input">
             <input type="hidden" name="_method" value="PATCH"> 
             <input type="hidden" name="id" value="{{ ldev.id }}">
                 {% for key, value in ldev.items() %}
