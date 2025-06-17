@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"
+    <title>{% block title %}Sistema{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block extra_css %}{% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="nav">
+        <a href="/api/authentication/home">
+            <img src="{{ url_for('static', filename='img/pucpr.png') }}" alt="PUCPR Logo">
+        </a>
+
+        <div class="nav-left">
+            <div class="dropdown">
+                <button class="dropbtn">Ações</button>
+                <div class="dropdown-content">
+                    <a href="/api/user/register_user">Registrar Usuário</a>
+                    <a href="/api/team/register_team">Registrar Tema</a>
+                    <a href="/api/routine/register_routine">Registrar nova Rotina</a>
+                    <a href="/api/locale/register_locale">Novo Local</a>
+                    <a href="/api/ldev/register_device">Registrar novo Dispositivo</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Acessar</button>
+                <div class="dropdown-content">
+                    <a href="/api/user/list_users">Usuários</a>
+                    <a href="/api/team/list_teams">Temas</a>
+                    <a href="/api/routine/list_routines">Rotinas</a>
+                    <a href="/api/locale/list_locale">Locais</a>
+                    <a href="/api/ldev/list_devices">Dispositivos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button class="dropbtn">Tempo Real</button>
+                <div class="dropdown-content">
+                    <a href="/api/log/dados_temporeal">Tempo real</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="/logout">
+                <button class="btn-logout">Sair</button>
+            </a>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    
+</body>
+</html>

@@ -1,8 +1,86 @@
 {% extends "base.html" %}
 
-{% block title %}Registrar Usuário{% endblock %}
-
+{% block title %}TulipIoT - Irrigação Inteligente{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">🌷 TulipIoT</h1>
+        <p class="hero-subtitle">
+            Sistema de irrigação automatizada inteligente para cultivo de tulipas, 
+            combinando sensores IoT, análise de dados em tempo real e controle remoto 
+            para otimizar o crescimento e saúde das suas flores.
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3 class="feature-title">Automação de Irrigação</h3>
+            <p class="feature-description">
+                Sistema inteligente que ativa a irrigação automaticamente baseado na umidade do solo, garantindo economia de água e saúde para suas tulipas.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3 class="feature-title">Controle Remoto</h3>
+            <p class="feature-description">
+                Controle o sistema de irrigação de qualquer lugar, através do painel web ou via comandos MQTT, com acionamento manual ou programado.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3 class="feature-title">Monitoramento em Tempo Real</h3>
+            <p class="feature-description">
+                Veja em tempo real dados de umidade, temperatura e status do sistema, diretamente na interface web, com alertas automáticos.
+            </p>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">95%</span>
+                <span class="stat-label">Economia de Água</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Monitoramento</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Automatizado</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">IoT</span>
+                <span class="stat-label">Tecnologia</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tech-stack">
+        <h2 class="tech-title">Tecnologias Utilizadas</h2>
+        <div class="tech-list">
+            <span class="tech-item">Flask</span>
+            <span class="tech-item">Python</span>
+            <span class="tech-item">MQTT</span>
+            <span class="tech-item">IoT Sensors</span>
+            <span class="tech-item">SQLAlchemy</span>
+            <span class="tech-item">SocketIO</span>
+            <span class="tech-item">JWT</span>
+            <span class="tech-item">HTML5</span>
+            <span class="tech-item">CSS3</span>
+            <span class="tech-item">JavaScript</span>
+        </div>
+    </div>
+</div>
 {% endblock %}
