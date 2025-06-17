@@ -29,8 +29,8 @@
     }
 
     async function buscarDados() {
-        const resp = await fetch('/api/ultimo-log');
-        const dados = await resp.json();
+    const resp = await fetch('/api/api/api/ultimo-log'); // Note a repetição de '/api'
+    const dados = await resp.json();
 
         document.getElementById('dados').innerHTML = `
             <p>🌡️ Temperatura: ${dados.temperature} °C</p>

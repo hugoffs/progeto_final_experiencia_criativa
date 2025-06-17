@@ -1,3 +1,5 @@
+# app controller
+
 import os
 from dotenv import load_dotenv
 
@@ -58,7 +60,7 @@ def create_app():
     app.register_blueprint(routine_, url_prefix='/api/routine')
     app.register_blueprint(team_, url_prefix='/api/team')
     app.register_blueprint(user_, url_prefix='/api/user')
-    app.register_blueprint(api_, url_prefix='/api/api')
+    app.register_blueprint(api_, url_prefix='/api')
     app.register_blueprint(mqtt_, url_prefix='/api/mqtt')
 
     # 🔥 Configuração Swagger
