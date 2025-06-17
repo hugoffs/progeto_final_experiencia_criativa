@@ -2,8 +2,8 @@
 {% block title %}Registrar Rotina{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/register_routine.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/registrar_usuario.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register_routine.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -19,6 +19,12 @@
 
                 <p>Litros de Água</p>
                 <input type="number" name="liters_of_water" placeholder="Litros de Água" step="0.1" min="0" required>
+                <p>Local</p>
+                <select name="locale_id" required>
+                    {% for locale in locales %}
+                    <option value="{{ locale.id }}">{{ locale.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="form-right">

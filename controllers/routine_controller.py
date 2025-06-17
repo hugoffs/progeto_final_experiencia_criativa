@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import Blueprint, request, jsonify, render_template, redirect, session
 from flask_jwt_extended import jwt_required, get_jwt
 
+from services.locale_service import list_locales
 from services.routine_service import update_routine, get_routine, delete_routine, list_routines, create_routine
 
 routine_ = Blueprint('routine', __name__, template_folder="./views", static_folder="./static", root_path="./")
@@ -402,8 +403,8 @@ def register_routine():
 
         # Redireciona para a página de opções avançadas
         return redirect('/api/routine/opicoes_avancadas')
-
-    return render_template('register_routine.html')
+    locales = list_locales()
+    return render_template('register_routine.html', locales= locales)
 
 @routine_.route("/add_routine", methods=["POST"])
 def add_routine():

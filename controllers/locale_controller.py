@@ -319,7 +319,7 @@ def add_locale():
       return "Nome do time é obrigatório", 400 
     
     create_locale(name=name, team_id=team_id, note=note)
-    return redirect("/api/locale/lista_locais")
+    return redirect("/api/locale/list_locale")
 
 @locale_.route("/edit_locale")
 def edit_locale():
@@ -337,11 +337,11 @@ def update_locale_route():
 
     locale = get_locale(id)
     update_locale(locale, name=name, team_id=team_id, note=note)
-    return redirect("/api/locale/lista_locais")
+    return redirect("/api/locale/list_locale")
 
 @locale_.route("/del_loacle")
 def del_locale():
     id = request.args.get("id")
     locale = get_locale(id)
     delete_locale(locale)
-    return redirect("/api/locale/lista_locais")
+    return redirect("/api/locale/list_locale")

@@ -19,7 +19,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nome</th>
+                        <th>id</th>
                         <th>Horário</th>
                         <th colspan="2">Ações</th>
                     </tr>
@@ -27,7 +27,7 @@
                 <tbody>
                     {% for routine in routines %}
                         <tr>
-                            <td>{{ routine.name }}</td>
+                            <td>{{ routine.id }}</td>
                             <td>{{ routine.horario_inicio }} - {{ routine.horario_fim }}</td>
                             <td><a href="/edt_routine/{{ routine.id }}">Editar</a></td>
                             <td><a href="/del_routine/{{ routine.id }}">Excluir</a></td>
